@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACER Ratings — Designer Specification Document</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;min-height:100vh}
+
+:root{
+  --bk:#ffffff;
+  --dbl:#f8fafc;
+  --card-bg:#ffffff;
+  --card-border:#dde4ea;
+  --org:#F05E1C;
+  --org-lt:#FEE5D4;
+  --org-mid:#D86A3D;
+  --org-bright:#FF7A3F;
+  --txt-primary:#0F172A;
+  --txt-secondary:#334155;
+  --txt-tertiary:#64748B;
+  --bg-primary:#ffffff;
+  --bg-secondary:#f8fafc;
+  --border:#e5e7eb;
+  --border-light:#f1f5f9;
+  --r:10px;
+  --r2:6px;
+  --green:#16A34A;
+  --green-lt:#D1FAE5;
+  --blue:#185FA5;
+  --blue-lt:#E8F0FF;
+  --amber:#D4A640;
+  --amber-lt:#FFF7D6;
+}
+
+/* LAYOUT */
+.doc-wrap{max-width:1140px;margin:0 auto;padding:28px 24px 60px}
+
+/* HEADER */
+.doc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid var(--border)}
+.doc-logo{display:flex;align-items:center;gap:10px}
+.doc-logomark{width:34px;height:34px;background:var(--org);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;letter-spacing:.5px}
+.doc-brand{font-size:15px;font-weight:600;color:var(--txt-primary)}
+.doc-brand span{color:var(--org)}
+.doc-meta{text-align:right}
+.doc-title{font-size:13px;font-weight:500;color:var(--txt-secondary);letter-spacing:.3px}
+.doc-version{font-size:11px;color:var(--txt-tertiary);margin-top:2px}
+
+/* TAB NAV */
+.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:0;background:var(--bg-secondary);border-radius:10px 10px 0 0;overflow:hidden}
+.tab{padding:12px 22px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--txt-tertiary);transition:all .15s;user-select:none;letter-spacing:.4px;white-space:nowrap}
+.tab:hover{color:var(--txt-secondary);background:rgba(24,95,165,.08)}
+.tab.active{color:var(--org);border-bottom-color:var(--org);background:rgba(240,94,28,.12)}
+.tab-num{font-size:10px;opacity:.6;margin-right:5px}
+
+.panel{display:none;padding:24px 0 0}
+.panel.active{display:block}
+
+/* SECTION DIVIDER */
+.divider-lbl{display:flex;align-items:center;gap:8px;margin:4px 0 12px}
+.divider-lbl span{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-tertiary);white-space:nowrap}
+.divider-lbl::before,.divider-lbl::after{content:"";flex:1;height:0.5px;background:var(--border)}
+
+/* PERSONA CARDS */
+.persona-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.pcard{border:0.5px solid var(--border);border-radius:var(--r);padding:16px;background:var(--card-bg);transition:border-color .15s}
+.pcard:hover{border-color:var(--border-light)}
+.pcard-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.av-res{background:#E7F7ED;color:#166C2C}
+.av-inv{background:#E8F0FF;color:#185FA5}
+.av-new{background:rgba(240,94,28,.12);color:var(--org)}
+.av-reg{background:#FFF7D6;color:#9A6B17}
+.pname{font-size:13px;font-weight:600;color:var(--txt-primary)}
+.prole{font-size:11px;color:var(--txt-tertiary);letter-spacing:.3px;margin-top:1px}
+.ptag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:3px;margin-bottom:10px;letter-spacing:.6px;text-transform:uppercase}
+.tag-res{background:#E7F7ED;color:#166C2C}
+.tag-inv{background:#E8F0FF;color:#185FA5}
+.tag-new{background:rgba(240,94,28,.12);color:var(--org)}
+.tag-reg{background:#FFF7D6;color:#9A6B17}
+.pgoal{font-size:11px;color:var(--txt-secondary);line-height:1.6;margin-bottom:10px;padding-bottom:10px;border-bottom:0.5px solid var(--border)}
+.plist{list-style:none}
+.plist li{font-size:10px;color:var(--txt-tertiary);padding:3px 0;display:flex;gap:6px;line-height:1.4}
+.plist li::before{content:"→";flex-shrink:0;color:var(--org);font-size:9px;padding-top:1px}
+
+/* DESIGNER NOTE */
+.designer-note{background:#f9f9f9;border:0.5px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-top:16px}
+.dn-label{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--org);margin-bottom:8px}
+.dn-items{list-style:none}
+.dn-items li{font-size:11px;color:var(--txt-secondary);padding:3px 0;display:flex;gap:8px;line-height:1.5}
+.dn-items li::before{content:"◆";color:var(--org);font-size:8px;flex-shrink:0;padding-top:4px}
+
+/* JOURNEY TABLE */
+.journey-wrap{overflow-x:auto;margin-bottom:20px;border-radius:var(--r);border:0.5px solid var(--border)}
+.journey-tbl{width:100%;border-collapse:collapse;min-width:720px}
+.journey-tbl th{font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);padding:10px 14px;text-align:left;background:var(--bk);border-bottom:0.5px solid var(--border)}
+.journey-tbl th:not(:last-child){border-right:0.5px solid var(--border)}
+.journey-tbl td{font-size:10.5px;color:var(--txt-secondary);padding:11px 14px;border-bottom:0.5px solid var(--border);vertical-align:top;line-height:1.6}
+.journey-tbl td:not(:last-child){border-right:0.5px solid var(--border)}
+.journey-tbl tr:last-child td{border-bottom:none}
+.journey-tbl tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+.jstage{font-size:10px;font-weight:600;color:var(--txt-primary);margin-bottom:3px}
+.jbadge{display:inline-block;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:600;letter-spacing:.3px}
+.jb-land{background:#E8F0FF;color:#185FA5}
+.jb-explore{background:#FFF4E3;color:#B25108}
+.jb-act{background:#DEF7EC;color:#166C2C}
+.jb-trust{background:#F9F5EF;color:#7C5C0F}
+.jb-fail{background:#FEE2E2;color:#B91C1C}
+
+/* SITE MAP */
+.sm-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-secondary);border-radius:var(--r);color:#000;margin-bottom:14px;border:0.5px solid var(--border)}
+.sm-logo{display:flex;align-items:center;gap:8px}
+.sm-logomark{width:28px;height:28px;background:var(--org);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.sm-brand{font-size:13px;font-weight:600;color:#000}
+.sm-brand span{color:var(--org)}
+.sm-cta{background:var(--org);color:#fff;border:none;padding:6px 14px;border-radius:4px;font-size:11px;cursor:pointer;font-weight:600;letter-spacing:.4px}
+.sm-nav-pills{display:flex;gap:22px}
+.sm-npill{font-size:11px;color:rgba(255,255,255,.55);cursor:pointer}
+.sm-npill.active{color:#fff;border-bottom:1.5px solid var(--org);padding-bottom:2px}
+.sm-ham{display:flex;flex-direction:column;gap:3.5px;cursor:pointer}
+.sm-ham span{display:block;height:1.5px;width:18px;background:rgba(255,255,255,.6)}
+
+.sm-body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start}
+.sm-menu{background:var(--card-bg);border:0.5px solid var(--border);border-radius:var(--r);padding:0;display:flex;flex-direction:column;overflow:hidden}
+.smm-label{font-size:8px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--border)}
+.smm-item{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:5px;cursor:pointer;transition:background .12s;margin-bottom:1px}
+.smm-item:hover,.smm-item.smm-active{background:rgba(0,0,0,.04)}
+.smm-item.smm-active .smm-text{color:var(--txt-primary);font-weight:600}
+.smm-dot{width:4px;height:4px;border-radius:50%;background:var(--border-light);flex-shrink:0}
+.smm-item.smm-active .smm-dot{background:var(--org)}
+.smm-text{font-size:10.5px;color:var(--txt-secondary)}
+.smm-sub{padding-left:14px;margin-bottom:2px}
+.smm-sub .smm-item{padding:3px 7px}
+.smm-sub .smm-text{font-size:9.5px;color:var(--txt-tertiary)}
+.smm-divider{height:0.5px;background:var(--border);margin:7px 0}
+.smm-tag{font-size:8px;background:rgba(240,94,28,.12);color:var(--org);padding:1px 6px;border-radius:2px;font-weight:600;letter-spacing:.3px;margin-left:auto}
+.smm-footer{font-size:8px;color:var(--txt-tertiary);text-align:center;padding-top:8px;letter-spacing:.3px}
+
+/* 4 SECTIONS ACCORDION */
+.sections-grid{display:flex;flex-direction:column;gap:10px}
+.sec-block{border:0.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.sec-block:hover{border-color:var(--border-light)}
+.sec-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--card-bg);cursor:pointer;user-select:none}
+.sec-head:hover{background:rgba(0,0,0,.04)}
+.sec-num{width:28px;height:28px;background:var(--bg-secondary);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0;border:0.5px solid var(--border-light)}
+.sec-num.orange{background:var(--org);border-color:var(--org-bright)}
+.sec-title-row{flex:1}
+.sec-ttl{font-size:14px;font-weight:600;color:var(--txt-primary)}
+.sec-sub{font-size:11px;color:var(--txt-tertiary);margin-top:2px;letter-spacing:.2px}
+.sec-toggle{font-size:18px;color:var(--txt-tertiary);transition:transform .2s;line-height:1}
+.sec-toggle.open{transform:rotate(45deg);color:var(--org)}
+.sec-body2{display:none;border-top:0.5px solid var(--border)}
+.sec-body2.open{display:block}
+
+/* CONTENT BLOCKS */
+.sec-content2{padding:16px;display:grid;gap:10px}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.cb2{padding:12px 14px;border-radius:var(--r2);border:0.5px solid var(--border);background:var(--bk)}
+.cb2-lbl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:5px}
+.cb2-ttl{font-size:12.5px;font-weight:600;color:var(--txt-primary);margin-bottom:4px}
+.cb2-note{font-size:11px;color:var(--txt-secondary);line-height:1.6}
+.cb2-orange{border-left:2px solid var(--org);border-radius:0 var(--r2) var(--r2) 0}
+.cb2-dark{border-left:2px solid var(--border);border-radius:0 var(--r2) var(--r2) 0}
+.cb2-green{border-left:2px solid var(--green);border-radius:0 var(--r2) var(--r2) 0}
+
+.sec-note2{font-size:10px;color:var(--txt-tertiary);padding:8px 16px 12px;font-style:italic;border-top:0.5px dashed var(--border);line-height:1.5}
+
+/* PERSONA TAGS */
+.who-serves{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.ws{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600;letter-spacing:.2px}
+.ws-r{background:#f5f5f5;color:#000000}
+.ws-i{background:#f5f5f5;color:#000000}
+.ws-n{background:#f5f5f5;color:#000000}
+.ws-reg{background:#f5f5f5;color:#000000}
+
+/* ABOUT SPECIAL */
+.about-special{padding:16px;display:grid;gap:10px}
+.about-hero{background:var(--bg-secondary);border-radius:var(--r2);padding:18px;border:0.5px solid var(--border-light)}
+.ah-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--org);margin-bottom:7px;font-weight:600}
+.ah-title{font-size:16px;font-weight:600;color:#000000;margin-bottom:7px;line-height:1.4}
+.ah-sub{font-size:11.5px;color:var(--txt-tertiary);line-height:1.6}
+
+.board-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.board-card{background:var(--bk);border:0.5px solid var(--border);border-radius:var(--r2);padding:11px}
+.bc-name{font-size:12px;font-weight:600;color:var(--txt-primary);margin-bottom:2px}
+.bc-role{font-size:11px;color:var(--org);margin-bottom:3px}
+.bc-note{font-size:10px;color:var(--txt-tertiary);line-height:1.4}
+
+.backers-row{background:#f5f5f5;border:0.5px solid var(--border);border-radius:var(--r2);padding:12px 16px}
+.bk-label{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--org);margin-bottom:8px}
+.bk-logos{display:flex;gap:8px;flex-wrap:wrap}
+.bk-logo{background:var(--card-bg);border:0.5px solid var(--border);border-radius:4px;padding:6px 12px;font-size:11px;color:var(--txt-tertiary)}
+
+/* EXPANDED SPEC BLOCKS */
+.spec-section{padding:16px;border-top:0.5px solid var(--border);background:var(--bk)}
+.spec-section-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.spec-section-title::after{content:"";flex:1;height:0.5px;background:var(--border)}
+.spec-grid{display:grid;gap:8px}
+.spec-2col{grid-template-columns:1fr 1fr}
+.spec-3col{grid-template-columns:1fr 1fr 1fr}
+.spec-4col{grid-template-columns:1fr 1fr 1fr 1fr}
+
+.spec-card{background:var(--card-bg);border:0.5px solid var(--border);border-radius:var(--r2);padding:12px 14px}
+.spec-card-label{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:5px}
+.spec-card-title{font-size:12px;font-weight:600;color:var(--txt-primary);margin-bottom:5px}
+.spec-card-body{font-size:11px;color:var(--txt-secondary);line-height:1.6}
+.spec-card-body ul{list-style:none;padding:0}
+.spec-card-body ul li{padding:2px 0;display:flex;gap:6px}
+.spec-card-body ul li::before{content:"·";color:var(--org);flex-shrink:0}
+.spec-card.accent-orange{border-top:2px solid var(--org)}
+.spec-card.accent-blue{border-top:2px solid var(--border)}
+.spec-card.accent-green{border-top:2px solid var(--border)}
+.spec-card.accent-amber{border-top:2px solid var(--border)}
+
+.typo-row{display:flex;flex-direction:column;gap:4px}
+.typo-item{display:flex;align-items:baseline;gap:10px;padding:5px 8px;border-radius:4px;background:var(--bk);border:0.5px solid var(--border)}
+.typo-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt-tertiary);width:70px;flex-shrink:0}
+.typo-spec{font-size:11px;color:var(--org);font-family:monospace}
+.typo-use{font-size:10px;color:var(--txt-tertiary)}
+
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:10px;color:var(--txt-secondary);line-height:1.4;border-bottom:0.5px solid var(--border)}
+.checklist li:last-child{border-bottom:none}
+.check-box{width:13px;height:13px;border:0.5px solid var(--border-light);border-radius:2px;flex-shrink:0;margin-top:1px;background:var(--bk)}
+.check-box.done{background:rgba(22,163,74,.15);border-color:var(--green)}
+.check-box.done::after{content:"✓";display:block;font-size:9px;color:var(--green);text-align:center;line-height:13px}
+
+.interaction-states{display:flex;flex-direction:column;gap:6px}
+.state-row{display:flex;gap:8px;align-items:center}
+.state-label{font-size:9px;font-weight:600;letter-spacing:.5px;color:var(--txt-tertiary);width:80px;flex-shrink:0}
+.state-desc{font-size:10px;color:var(--txt-secondary)}
+.state-pill{font-size:8px;padding:2px 8px;border-radius:10px;font-weight:600}
+.sp-default{background:#f5f5f5;color:#000000}
+.sp-hover{background:#f5f5f5;color:#000000}
+.sp-active{background:rgba(240,94,28,.12);color:var(--org)}
+.sp-disabled{background:#f5f5f5;color:#000000}
+
+.mobile-note{background:#f5f5f5;border:0.5px solid var(--border);border-radius:var(--r2);padding:10px 14px}
+.mn-label{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#000000;margin-bottom:6px}
+.mn-body{font-size:10px;color:var(--txt-secondary);line-height:1.6}
+
+.spacing-row{display:flex;flex-direction:column;gap:3px}
+.sp-row{display:flex;align-items:center;gap:10px;padding:4px 8px;background:var(--bk);border-radius:4px}
+.sp-token{font-family:monospace;font-size:9px;color:var(--org);width:60px;flex-shrink:0}
+.sp-px{font-size:9px;color:var(--txt-tertiary);width:40px}
+.sp-use{font-size:10px;color:var(--txt-secondary)}
+
+.copy-block{background:var(--bk);border:0.5px solid var(--border);border-radius:var(--r2);padding:12px 14px}
+.copy-label{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:6px}
+.copy-eg{font-size:10.5px;color:var(--txt-primary);line-height:1.6;font-style:italic;border-left:2px solid var(--org);padding-left:10px}
+.copy-note{font-size:9px;color:var(--txt-tertiary);margin-top:5px}
+
+.component-pill{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:3px;background:#F8FAFC;color:#0F172A;border:0.5px solid var(--border);margin:2px}
+.component-pill.blue{background:var(--blue-lt);color:var(--blue);border-color:rgba(24,95,165,.22)}
+.component-pill.green{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.22)}
+</style>
+</head>
+<body>
+<div class="doc-wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-logo">
+      <div class="doc-logomark">AR</div>
+      <div>
+        <div class="doc-brand"><span>ACER</span> Ratings</div>
+        <div style="font-size:9px;color:var(--txt-tertiary);margin-top:1px;letter-spacing:.3px">Accurité Credit & Economic Ratings · SEBI Registered CRA</div>
+      </div>
+    </div>
+    <div class="doc-meta">
+      <div class="doc-title">Website Design Specification — Internal Reference</div>
+      <div class="doc-version">User personas · Journey map · Site structure · Section blueprints · Designer specs · v1.0</div>
+    </div>
+  </div>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('personas')"><span class="tab-num">01 —</span> User Personas</div>
+    <div class="tab" onclick="showTab('journey')"><span class="tab-num">02 —</span> Journey Map</div>
+    <div class="tab" onclick="showTab('sitemap')"><span class="tab-num">03 —</span> Site Structure</div>
+    <div class="tab" onclick="showTab('sections')"><span class="tab-num">04 —</span> 4 Sections in Detail</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PANEL 1: PERSONAS                           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="panel active" id="panel-personas">
+    <div class="persona-grid">
+      <div class="pcard">
+        <div class="pcard-top">
+          <div class="avatar av-res">RE</div>
+          <div><div class="pname">Researcher / Analyst</div><div class="prole">External — academia, journalism, consultancy</div></div>
+        </div>
+        <span class="ptag tag-res">Researcher</span>
+        <div class="pgoal">Needs data, reports, and methodology documents to cite or validate. Doesn't want to register or pay. Fast, no-friction access.</div>
+        <ul class="plist">
+          <li>Download sector studies & outlook reports</li>
+          <li>Access rating criteria PDFs publicly</li>
+          <li>Find historical press releases by date/sector</li>
+          <li>Understand ACER's methodology vs peers</li>
+          <li>Check SEBI compliance disclosures</li>
+        </ul>
+      </div>
+      <div class="pcard">
+        <div class="pcard-top">
+          <div class="avatar av-inv">IV</div>
+          <div><div class="pname">Investor / Lender</div><div class="prole">Existing user — MFs, banks, insurance, FIIs</div></div>
+        </div>
+        <span class="ptag tag-inv">Investor</span>
+        <div class="pgoal">Tracks ratings on instruments they hold. Needs latest surveillance alerts, upgrades, downgrades. High trust in data accuracy.</div>
+        <ul class="plist">
+          <li>Find latest rating on a specific entity</li>
+          <li>Check if a rating has been downgraded/on watch</li>
+          <li>Read the full rationale PDF of a rating</li>
+          <li>Track rating actions across their portfolio</li>
+          <li>Subscribe to alerts for specific issuers</li>
+        </ul>
+      </div>
+      <div class="pcard">
+        <div class="pcard-top">
+          <div class="avatar av-new">NI</div>
+          <div><div class="pname">New Issuer / Entity</div><div class="prole">Prospective customer — CFO, treasury, corp dev</div></div>
+        </div>
+        <span class="ptag tag-new">New customer</span>
+        <div class="pgoal">Evaluating ACER vs CRISIL/ICRA. Needs to understand cost, process, timeline, and credibility before committing. Wants to speak to someone.</div>
+        <ul class="plist">
+          <li>Understand the rating process step by step</li>
+          <li>See ACER's regulatory standing (SEBI/RBI)</li>
+          <li>Know what sectors & instruments ACER rates</li>
+          <li>Initiate a rating request / get a quote</li>
+          <li>Talk to a relationship manager</li>
+        </ul>
+      </div>
+      <div class="pcard">
+        <div class="pcard-top">
+          <div class="avatar av-reg">RC</div>
+          <div><div class="pname">Regulator / Compliance Officer</div><div class="prole">SEBI, RBI, company compliance teams</div></div>
+        </div>
+        <span class="ptag tag-reg">Regulator</span>
+        <div class="pgoal">Checks if ACER is filing correctly, maintaining disclosures, and following code of conduct. Needs instant access to mandatory docs.</div>
+        <ul class="plist">
+          <li>Access SEBI registration certificate</li>
+          <li>Download annual compliance certificate</li>
+          <li>Find conflict of interest policy</li>
+          <li>Locate grievance redressal mechanism</li>
+          <li>Check regulatory filings archive</li>
+        </ul>
+      </div>
+    </div>
+    <div class="designer-note">
+      <div class="dn-label">Designer note — persona-led design decisions</div>
+      <ul class="dn-items">
+        <li>Researcher and Investor both arrive via Google — they search "ACER Ratings [entity name]" or "ACER credit outlook". Landing pages for press releases and research must be SEO-optimised, with immediate PDF access — no login wall.</li>
+        <li>New issuer arrives via referral or LinkedIn. The hero section and "Get Rated" CTA are built for them. The rating process page must have a clear, numbered flow + a contact/request form at the end.</li>
+        <li>Regulator arrives directly to the Disclosures section. This section must be accessible within 1 click from the homepage — no deep nesting.</li>
+        <li>Newsletter and press release subscription serves primarily the Investor and Researcher personas — both want passive updates without checking the site daily.</li>
+        <li>The brand disambiguation problem ("ACER = laptops?") is felt most acutely by the New Issuer — hero copy, metadata, and the page title tag must lead with "credit rating agency".</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PANEL 2: JOURNEY MAP                        -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="panel" id="panel-journey">
+    <div class="journey-wrap">
+      <table class="journey-tbl">
+        <thead>
+          <tr>
+            <th style="width:130px">Stage</th>
+            <th>Researcher</th>
+            <th>Investor / Lender</th>
+            <th>New Issuer</th>
+            <th>Regulator</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="jstage">Arrival</div><span class="jbadge jb-land">How they find ACER</span></td>
+            <td>Google search — "ACER Ratings NBFC sector study" or "credit outlook India CRA"</td>
+            <td>Google search — "[Entity] ACER rating downgrade" or direct link from a fund system</td>
+            <td>Referral from bank / CA / CFO peer. Sometimes searches "SEBI credit rating agency India SME"</td>
+            <td>Direct type-in or from SEBI's list of registered CRAs</td>
+          </tr>
+          <tr>
+            <td><div class="jstage">Landing</div><span class="jbadge jb-land">First page they see</span></td>
+            <td>Research library page or a specific report/press release</td>
+            <td>A specific press release or the Rating Actions table</td>
+            <td>Homepage hero — sees "Get Rated" CTA</td>
+            <td>Disclosures section or homepage</td>
+          </tr>
+          <tr>
+            <td><div class="jstage">Explore</div><span class="jbadge jb-explore">What they look at</span></td>
+            <td>Research → Sector Studies → Economy Outlook → Criteria PDFs</td>
+            <td>Rating Actions table → Entity search → Press release PDF → Rating scale reference</td>
+            <td>About → Who we are → Ratings section → Rating Process → Why ACER vs peers</td>
+            <td>Disclosures → SEBI certificate → Code of conduct → Grievance → Annual report</td>
+          </tr>
+          <tr>
+            <td><div class="jstage">Action</div><span class="jbadge jb-act">What they do</span></td>
+            <td>Downloads PDF report. May subscribe to newsletter. May cite ACER in their publication.</td>
+            <td>Downloads rating rationale. Sets up alert/subscription for entity. Verifies watch/downgrade.</td>
+            <td>Fills the "Get Rated" form or calls the RM. Shares internally for a decision.</td>
+            <td>Downloads compliance certificate. Screenshots grievance mechanism details.</td>
+          </tr>
+          <tr>
+            <td><div class="jstage">Trust signal needed</div><span class="jbadge jb-trust">What makes them stay</span></td>
+            <td>Public access to criteria docs. Clear methodology. Recent publications (not stale).</td>
+            <td>Up-to-date rating actions. Full rationale PDF available. SEBI/RBI badge visible.</td>
+            <td>Process clarity. Board credibility. Regulatory standing. Client case (if any). Clear fees/timeline.</td>
+            <td>Compliance filings are current. Grievance contact is real and reachable. Code of conduct is specific.</td>
+          </tr>
+          <tr>
+            <td><div class="jstage">Failure mode</div><span class="jbadge jb-fail">Where they drop off</span></td>
+            <td>Reports are old or gated. Too many clicks to find a PDF.</td>
+            <td>No entity search. Rating actions are stale. Rationale PDF behind a form.</td>
+            <td>Process page is vague. No contact point is obvious. Can't tell if ACER rates their sector.</td>
+            <td>SEBI certificate is missing or link is broken. Grievance page has no actual contact.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="designer-note">
+      <div class="dn-label">Key design implications from journey map</div>
+      <ul class="dn-items">
+        <li>Global search bar is not optional — Investor and Researcher both search for entity names. Must be in the sticky top nav.</li>
+        <li>Every press release and research PDF must be directly accessible — no registration wall for core regulatory content.</li>
+        <li>The "Get Rated" CTA must appear in hero, sticky nav, and at the bottom of the Ratings section. Not once.</li>
+        <li>Disclosures must be reachable in 1 click from the nav — it cannot be buried in a footer link only.</li>
+        <li>Newsletter signup serves both Researcher and Investor passively — place it in Research section + footer, not just a popup.</li>
+        <li>Mobile experience must not break the press release / PDF flow — Investor often checks rating status on mobile.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PANEL 3: SITE STRUCTURE                     -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="panel" id="panel-sitemap">
+    <div class="sm-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="sm-ham"><span></span><span></span><span></span></div>
+        <div class="sm-logo">
+          <div class="sm-logomark">AR</div>
+          <div class="sm-brand"><span>ACER</span> Ratings</div>
+        </div>
+      </div>
+      <div class="sm-nav-pills">
+        <span class="sm-npill">About</span>
+        <span class="sm-npill">Ratings</span>
+        <span class="sm-npill">Research & Insights</span>
+        <span class="sm-npill">Disclosures</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:10px;color:rgba(255,255,255,.4)">⌕ Search</span>
+        <button class="sm-cta">Get Rated →</button>
+      </div>
+    </div>
+
+    
+
+      <div>
+        <div class="divider-lbl"><span>Homepage layout — section order</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="background:var(--bg-secondary);border-radius:6px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:0.5px solid var(--border)">
+            <div>
+              <div style="font-size:9px;color:var(--org);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px;font-weight:600">Persistent</div>
+              <div style="font-size:12px;font-weight:600;color:var(--txt-primary)">Hero band — identity, tagline, stats, primary CTA</div>
+            </div>
+            <div style="font-size:9px;color:var(--txt-tertiary)">All users</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px">
+            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
+              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 1</div>
+              <div style="font-size:11px;font-weight:600">About</div>
+            </div>
+            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
+              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 2</div>
+              <div style="font-size:11px;font-weight:600">Ratings</div>
+            </div>
+            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
+              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 3</div>
+              <div style="font-size:11px;font-weight:600">Research & Insights</div>
+            </div>
+            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
+              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 4</div>
+              <div style="font-size:11px;font-weight:600">Disclosures</div>
+            </div>
+          </div>
+          <div style="background:var(--bg-secondary);border-radius:6px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:0.5px solid var(--border)">
+            <div style="font-size:11px;color:var(--txt-secondary)">Footer — nav links, contact, newsletter, SEBI disclaimer</div>
+            <div style="font-size:9px;color:var(--txt-tertiary)">All pages</div>
+          </div>
+        </div>
+
+        <div class="divider-lbl" style="margin-top:18px"><span>What lives inside each section</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
+              <div style="width:22px;height:22px;background:var(--bg-secondary);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#000;font-weight:700;border:0.5px solid var(--border)">A</div>
+              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">About</span>
+            </div>
+            <ul class="plist">
+              <li>Mission & identity statement</li>
+              <li>Board of Directors (names, roles, bios)</li>
+              <li>Promoters & backed by (logos + brief)</li>
+              <li>Leadership team snapshot</li>
+              <li>Company journey / timeline</li>
+              <li>Careers (linked subsection)</li>
+            </ul>
+          </div>
+          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
+              <div style="width:22px;height:22px;background:var(--org);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700">R</div>
+              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">Ratings</span>
+            </div>
+            <ul class="plist">
+              <li>Rating scale (AAA → D)</li>
+              <li>Rating process (7 steps)</li>
+              <li>What we rate (instruments + sectors)</li>
+              <li>Rating actions (filterable live table)</li>
+              <li>Get rated CTA (form / contact)</li>
+            </ul>
+          </div>
+          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
+              <div style="width:22px;height:22px;background:var(--org);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:700">RI</div>
+              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">Research & Insights</span>
+            </div>
+            <ul class="plist">
+              <li>Featured report (macro outlook)</li>
+              <li>Sector studies & special reports</li>
+              <li>Rating criteria / methodology docs</li>
+              <li>Press releases archive</li>
+              <li>Newsletter signup + archive</li>
+            </ul>
+          </div>
+          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
+              <div style="width:22px;height:22px;background:var(--bg-secondary);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#000;font-weight:700;border:0.5px solid var(--border)">D</div>
+              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">Disclosures</span>
+            </div>
+            <ul class="plist">
+              <li>SEBI registration certificate</li>
+              <li>RBI recognition letter</li>
+              <li>Code of conduct</li>
+              <li>Grievance redressal (form + contact)</li>
+              <li>Conflict of interest policy</li>
+              <li>Annual reports & filings archive</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PANEL 4: 4 SECTIONS IN DETAIL               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="panel" id="panel-sections">
+    <div class="sections-grid">
+
+      <!-- ─────────────── ABOUT ─────────────── -->
+      <div class="sec-block">
+        <div class="sec-head" onclick="toggle2(this)">
+          <div class="sec-num">A</div>
+          <div class="sec-title-row">
+            <div class="sec-ttl">About ACER Ratings</div>
+            <div class="sec-sub">Who we are · Board · Promoters & backers · Leadership · Journey · Careers</div>
+          </div>
+          <div class="who-serves">
+            <span class="ws ws-n">New issuer</span>
+            <span class="ws ws-i">Investor</span>
+          </div>
+          <div class="sec-toggle">+</div>
+        </div>
+        <div class="sec-body2">
+          <!-- Original content -->
+          <div class="about-special">
+            <div class="about-hero">
+              <div class="ah-eyebrow">India's independent credit voice</div>
+              <div class="ah-title">We are ACER Ratings — a SEBI-registered credit rating agency.</div>
+              <div class="ah-sub">Not the laptop brand. The financial intelligence firm. Delivering independent, rigorous credit opinions that help India's capital markets function with greater transparency and trust.</div>
+            </div>
+            <div class="divider-lbl"><span>Board of directors</span></div>
+            <div class="board-grid">
+              <div class="board-card">
+                <div class="bc-name">Name Surname</div>
+                <div class="bc-role">Chairman — Independent Director</div>
+                <div class="bc-note">Former MD, [Bank / Institution]. 30+ yrs in banking & capital markets.</div>
+              </div>
+              <div class="board-card">
+                <div class="bc-name">Name Surname</div>
+                <div class="bc-role">MD & CEO</div>
+                <div class="bc-note">Founder. Prior roles at [CRA / PE / IB]. Ex-SEBI / RBI (if applicable).</div>
+              </div>
+              <div class="board-card">
+                <div class="bc-name">Name Surname</div>
+                <div class="bc-role">Independent Director</div>
+                <div class="bc-note">Legal / compliance background. SEBI-appointed independent member.</div>
+              </div>
+              <div class="board-card">
+                <div class="bc-name">Name Surname</div>
+                <div class="bc-role">Chief Rating Officer</div>
+                <div class="bc-note">Heads the rating committee. Former [CRISIL / ICRA / Moody's] analyst.</div>
+              </div>
+              <div class="board-card">
+                <div class="bc-name">Name Surname</div>
+                <div class="bc-role">Nominee Director</div>
+                <div class="bc-note">Representing [Promoter / Backer entity]. Background in [finance / VC].</div>
+              </div>
+              <div class="board-card" style="background:var(--bk);border-color:var(--border)">
+                <div class="bc-name" style="color:var(--org)">+ Full board listing</div>
+                <div class="bc-note" style="margin-top:4px">All directors listed with bios, LinkedIn, committee memberships — on the full About page.</div>
+              </div>
+            </div>
+            <div class="backers-row">
+              <div class="bk-label">Promoted & backed by</div>
+              <div class="bk-logos">
+                <div class="bk-logo">Promoter / Founder entity</div>
+                <div class="bk-logo">Strategic investor A</div>
+                <div class="bk-logo">Industry backer B</div>
+                <div class="bk-logo">+ Replace with actual names / logos</div>
+              </div>
+            </div>
+            <div class="sec-content2 c3">
+              <div class="cb2 cb2-orange"><div class="cb2-lbl">Mission</div><div class="cb2-ttl">Why we exist</div><div class="cb2-note">Enabling informed capital allocation through credible, independent credit opinions for India's debt markets.</div></div>
+              <div class="cb2 cb2-orange"><div class="cb2-lbl">Journey</div><div class="cb2-ttl">Timeline</div><div class="cb2-note">Incorporation → SEBI registration → first rated entity → milestones → present. Horizontal timeline component on full page.</div></div>
+              <div class="cb2 cb2-orange"><div class="cb2-lbl">Careers</div><div class="cb2-ttl">Join ACER</div><div class="cb2-note">Analyst development programme. Open positions. Culture narrative. Links to the full Careers sub-page.</div></div>
+            </div>
+          </div>
+
+          <!-- DESIGNER SPECS: ABOUT -->
+          
+
+          <div class="spec-section">
+            <div class="spec-section-title">Components used — About section</div>
+            <div>
+              <div style="margin-bottom:8px">
+                <span class="component-pill">Hero dark banner</span>
+                <span class="component-pill">Board card grid (3-col)</span>
+                <span class="component-pill">Backer logo strip</span>
+                <span class="component-pill">Mission / Journey / Careers 3-col cards</span>
+                <span class="component-pill">Horizontal timeline</span>
+                <span class="component-pill blue">Avatar with initials fallback</span>
+                <span class="component-pill blue">LinkedIn icon link</span>
+                <span class="component-pill green">Careers CTA button</span>
+              </div>
+              <div class="spec-grid spec-3col">
+                <div class="spec-card accent-orange">
+                  <div class="spec-card-label">Hero dark banner</div>
+                  <div class="spec-card-title">Identity statement block</div>
+                  <div class="spec-card-body">
+                    <ul>
+                      <li>Dark gradient bg: #0A0C10 → #0D1F38</li>
+                      <li>Eyebrow tag: orange, 9px, 2px letter-spacing</li>
+                      <li>H1: white, 36px, 600 weight</li>
+                      <li>"Not the laptop brand" disambiguation must be visible — bold or colour accent</li>
+                      <li>Padding: 40px desktop / 24px mobile</li>
+                      <li>Border-radius: 12px. No outer margin on mobile (full bleed)</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="spec-card accent-blue">
+                  <div class="spec-card-label">Board card grid</div>
+                  <div class="spec-card-title">Director / leadership cards</div>
+                  <div class="spec-card-body">
+                    <ul>
+                      <li>3 columns desktop, 2 tablet, 1 mobile</li>
+                      <li>Each card: avatar/photo (60×60), name, role (orange), short bio (2 lines)</li>
+                      <li>Hover: slight border-color lift + LinkedIn icon appears</li>
+                      <li>Photo: circular crop, 60px. Fallback: initials in coloured circle</li>
+                      <li>Card min-height: 140px to maintain grid alignment</li>
+                      <li>SEBI requirement: all independent directors visually distinct</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="spec-card accent-green">
+                  <div class="spec-card-label">Backer logo strip</div>
+                  <div class="spec-card-title">Promoters & investors</div>
+                  <div class="spec-card-body">
+                    <ul>
+                      <li>Orange-tinted bg strip (subtle, not distracting)</li>
+                      <li>Logos: monochrome preferred on dark bg</li>
+                      <li>Logo height: 28–32px, width auto, max-width 120px</li>
+                      <li>Fallback: text pill if logo not available</li>
+                      <li>6 logos max before "See all" link appears</li>
+                      <li>No animation — logos must feel stable / institutional</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        
+
+          <div class="spec-section">
+            <div class="spec-section-title">Interaction states — About</div>
+            <div class="interaction-states">
+              <div class="state-row"><span class="state-label">Board card</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Dark card, 0.5px border</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Border brightens to --border-light, LinkedIn icon fades in top-right</span></div>
+              <div class="state-row"><span class="state-label">Backer logo</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Monochrome / muted</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Slight brightness / opacity lift (no scale, keeps it institutional)</span></div>
+              <div class="state-row"><span class="state-label">Timeline node</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Small orange dot, year label below</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Tooltip with milestone description appears above the dot</span></div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Copy guidelines — About</div>
+            <div class="spec-grid spec-2col">
+              <div class="copy-block">
+                <div class="copy-label">Hero H1 — recommended frame</div>
+                <div class="copy-eg">"We are ACER Ratings — India's independent credit rating agency."</div>
+                <div class="copy-note">Lead with "credit rating agency" for disambiguation. "ACER" alone = laptops to many users.</div>
+              </div>
+              <div class="copy-block">
+                <div class="copy-label">Hero sub-copy — recommended frame</div>
+                <div class="copy-eg">"SEBI-registered. RBI-recognised. Delivering rigorous, conflict-free credit opinions that India's debt markets can depend on."</div>
+                <div class="copy-note">Two sentences max. Include both SEBI and RBI credentials. Avoid superlatives ("best", "leading").</div>
+              </div>
+              <div class="copy-block">
+                <div class="copy-label">Mission card</div>
+                <div class="copy-eg">"To enable informed capital allocation by delivering independent, transparent credit opinions — for every corner of India's debt market."</div>
+                <div class="copy-note">One sentence. Action-oriented. No jargon beyond what a CFO would use.</div>
+              </div>
+              <div class="copy-block">
+                <div class="copy-label">Careers CTA</div>
+                <div class="copy-eg">"Build India's credit analysis infrastructure — join the team →"</div>
+                <div class="copy-note">Aspirational framing, not just "apply now". Target: junior analysts and fresh graduates.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Mobile notes — About</div>
+            <div class="mobile-note">
+              <div class="mn-label">Mobile (≤768px) behaviour</div>
+              <div class="mn-body">
+                Board grid: 3-col → 2-col (tablet) → 1-col (mobile). Board card photos go inline-left (48px) with name/role to the right — same height. Backer logos: horizontal scroll strip on mobile, do not wrap to 2 rows. Timeline: collapses to vertical stacked list (year + milestone) with orange left-rail line. Hero copy: H1 drops to 26px on mobile, maintains line breaks. "Not the laptop brand" line must NOT be cut on mobile — confirm at 375px viewport.
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Designer checklist — About section</div>
+            <ul class="checklist">
+              <li><div class="check-box"></div>Hero H1 leads with "credit rating agency" — not just "ACER Ratings"</li>
+              <li><div class="check-box"></div>Brand disambiguation ("not the laptop brand") is visually prominent — not just in body text</li>
+              <li><div class="check-box"></div>All board member names are linked to their full bios on the About page</li>
+              <li><div class="check-box"></div>SEBI registration number is visible near / below the board section</li>
+              <li><div class="check-box"></div>Board card grid tested at 375px viewport without overflow</li>
+              <li><div class="check-box"></div>Backer logos have text fallbacks for when images fail to load</li>
+              <li><div class="check-box"></div>Timeline is interactive (hover states) on desktop and scrollable on mobile</li>
+              <li><div class="check-box"></div>Careers subsection links to a dedicated /careers page (not a mailto)</li>
+              <li><div class="check-box"></div>All images have alt text with person's name and role</li>
+              <li><div class="check-box"></div>Page meta description includes "SEBI-registered credit rating agency India"</li>
+            </ul>
+          </div>
+          <div class="sec-note2">📌 Board section is a SEBI requirement — names, qualifications, and committee roles must be publicly available. "Backed by" uses logos for recognition; keep names factual and accurate.</div>
+        </div>
+      </div>
+
+      <!-- ─────────────── RATINGS ─────────────── -->
+      <div class="sec-block">
+        <div class="sec-head" onclick="toggle2(this)">
+          <div class="sec-num orange">R</div>
+          <div class="sec-title-row">
+            <div class="sec-ttl">Ratings</div>
+            <div class="sec-sub">Scale · Process · What we rate · Rating actions · Get rated · SME track</div>
+          </div>
+          <div class="who-serves">
+            <span class="ws ws-n">New issuer</span>
+            <span class="ws ws-i">Investor</span>
+            <span class="ws ws-r">Researcher</span>
+          </div>
+          <div class="sec-toggle">+</div>
+        </div>
+        <div class="sec-body2">
+          <div class="sec-content2 c3">
+            <div class="cb2 cb2-orange"><div class="cb2-lbl">For: new issuer + researcher</div><div class="cb2-ttl">Rating scale</div><div class="cb2-note">Visual AAA → D scale with investment/speculative grade split. Modifier (+/−) explanation. Downloadable scale reference PDF.</div><div class="who-serves"><span class="ws ws-n">New issuer</span><span class="ws ws-r">Researcher</span></div></div>
+            <div class="cb2 cb2-orange"><div class="cb2-lbl">For: new issuer</div><div class="cb2-ttl">Rating process</div><div class="cb2-note">7-step visual flow: Mandate → Data → Analysis → Committee → Decision → Disclosure → Surveillance. Numbered, clear. 30-day first-rating commitment.</div><div class="who-serves"><span class="ws ws-n">New issuer</span></div></div>
+            <div class="cb2 cb2-orange"><div class="cb2-lbl">For: all</div><div class="cb2-ttl">What we rate</div><div class="cb2-note">Instruments tab (Bank loans, NCDs, CP, Structured finance, SME) + Sectors tab (15+ industries). Helps issuers self-qualify before reaching out.</div><div class="who-serves"><span class="ws ws-n">New issuer</span><span class="ws ws-i">Investor</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">For: investor + researcher</div><div class="cb2-ttl">Rating actions</div><div class="cb2-note">Filterable live table. Filter by: Action type, Sector, Date range. Each row → press release PDF. Most used page by investors.</div><div class="who-serves"><span class="ws ws-i">Investor</span><span class="ws ws-r">Researcher</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">For: new issuer</div><div class="cb2-ttl">Get rated</div><div class="cb2-note">Short form: Entity name, instrument type, approximate size, sector, contact. OR direct phone/email to RM. Confirms SEBI-regulated process.</div><div class="who-serves"><span class="ws ws-n">New issuer</span></div></div>
+            <div class="cb2"><div class="cb2-lbl">SME focus</div><div class="cb2-ttl">SME ratings track</div><div class="cb2-note">Streamlined process, 21-day turnaround, accessible fees. Dedicated sub-section. Addresses India's MSME credit gap.</div></div>
+          </div>
+
+          <!-- DESIGNER SPECS: RATINGS -->
+          
+
+          <div class="spec-section">
+            <div class="spec-section-title">Components used — Ratings section</div>
+            <div style="margin-bottom:10px">
+              <span class="component-pill">Rating scale bar</span>
+              <span class="component-pill">7-step process timeline</span>
+              <span class="component-pill">What we rate tabs (Instruments / Sectors)</span>
+              <span class="component-pill">Rating actions filterable table</span>
+              <span class="component-pill">Get rated form</span>
+              <span class="component-pill blue">Action type badge (Upgrade / Downgrade / Watch)</span>
+              <span class="component-pill blue">Filter pills row</span>
+              <span class="component-pill green">Get Rated CTA button (repeat 3×)</span>
+            </div>
+            <div class="spec-grid spec-2col">
+              <div class="spec-card accent-orange">
+                <div class="spec-card-label">Rating scale component</div>
+                <div class="spec-card-title">AAA → D visual bar</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Horizontal gradient bar: green (AAA) → yellow (BBB) → red (D)</li>
+                    <li>Investment grade / speculative grade split: clear visual divider at BB+</li>
+                    <li>Each grade is a tooltip target — hover shows: definition + example instrument type</li>
+                    <li>Modifier (+/−) shown as smaller text below the main grade label</li>
+                    <li>Downloadable PDF button at end: "Download rating scale PDF"</li>
+                    <li>SEBI mandate: scale definition must match SEBI CRA regulations exactly</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-orange">
+                <div class="spec-card-label">7-step process flow</div>
+                <div class="spec-card-title">Rating process timeline</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Horizontal on desktop, vertical on mobile</li>
+                    <li>Steps: 1.Mandate 2.Data 3.Site visit 4.Analysis 5.Committee 6.Decision 7.Surveillance</li>
+                    <li>Each step: numbered circle (orange), title, 1-line description</li>
+                    <li>Connecting line between steps (dashed or solid)</li>
+                    <li>Step 5 (Committee) should note: "Independent — issuer has no influence"</li>
+                    <li>Timeline commitment: "First rating in 30 working days" visible prominently</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-blue">
+                <div class="spec-card-label">Rating actions table</div>
+                <div class="spec-card-title">Filterable live data table</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Columns: Date | Entity | Instrument | Previous | Current | Action | PDF</li>
+                    <li>Action badge colours: Upgrade=green, Downgrade=red, Watch=amber, New=blue, Reaffirmed=grey</li>
+                    <li>Filter row above table: Action type dropdown + Sector dropdown + Date range picker</li>
+                    <li>Search bar: entity name search (client-side filter or API)</li>
+                    <li>PDF icon in last column — direct download, no login</li>
+                    <li>Pagination: 20 rows/page. "Load more" or numbered pagination</li>
+                    <li>Empty state: "No results for [filter]. Try adjusting the filters."</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-green">
+                <div class="spec-card-label">Get rated form</div>
+                <div class="spec-card-title">Lead capture + RM contact</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Fields: Company name, Instrument type (dropdown), Facility size (₹ Cr range), Sector (dropdown), Name, Email, Phone</li>
+                    <li>Max 7 fields — every extra field reduces submission rate</li>
+                    <li>Below form: RM name, photo, phone, email — for users who prefer direct contact</li>
+                    <li>Success state: confirmation message + "expect a call within 1 business day"</li>
+                    <li>SEBI compliance note below form: "ACER Ratings is a SEBI-registered CRA (Reg. No. XXXXX)"</li>
+                    <li>Form placement: end of Ratings section + standalone /get-rated page</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Interaction states — Ratings</div>
+            <div class="interaction-states">
+              <div class="state-row"><span class="state-label">Table row</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Light alternating bg, 0.5px border between rows</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Row bg lifts slightly, PDF icon becomes orange, cursor: pointer</span></div>
+              <div class="state-row"><span class="state-label">Filter pill</span><span class="state-pill sp-default">Inactive</span><span class="state-desc" style="margin-left:8px">Dark bg, muted text, 0.5px border</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-active">Active</span><span class="state-desc" style="margin-left:8px">Orange bg (10% opacity), orange border, orange text, × dismiss icon</span></div>
+              <div class="state-row"><span class="state-label">Get Rated btn</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Solid orange, white text, border-radius 6px</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Slight darken (#D4521A), subtle shadow</span></div>
+              <div class="state-row"><span class="state-label">Process step</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Numbered circle: orange outline, white number</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Circle fills orange, tooltip with detailed step description</span></div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Copy guidelines — Ratings</div>
+            <div class="spec-grid spec-2col">
+              <div class="copy-block">
+                <div class="copy-label">Rating process — step labels</div>
+                <div class="copy-eg">"1. Mandate letter → 2. Data submission → 3. Management meeting → 4. Analyst assessment → 5. Rating committee → 6. Rating disclosure → 7. Annual surveillance"</div>
+                <div class="copy-note">Keep step names short (1–3 words). Each step gets 1 line of body copy below it.</div>
+              </div>
+              <div class="copy-block">
+                <div class="copy-label">Get rated CTA copy variants</div>
+                <div class="copy-eg">Hero: "Get your credit rating →" | Ratings section: "Start the rating process" | Bottom CTA band: "Ready to get rated? Talk to our team today."</div>
+                <div class="copy-note">Vary the copy per placement. Never repeat the exact same CTA string twice on one page.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Mobile notes — Ratings</div>
+            <div class="mobile-note">
+              <div class="mn-label">Mobile (≤768px) behaviour</div>
+              <div class="mn-body">
+                Rating scale bar: shrinks gracefully — each grade abbreviation (AAA, AA+…) must remain legible at 11px min. If too cramped, show only grades AAA / AA / A / BBB / BB / B / C / D with "+" modifiers in a tooltip. Process flow: horizontal → vertical stacked list on mobile. Rating actions table: hide "Previous" and "Instrument" columns on mobile, show Entity + Action badge + Date + PDF icon only. Table must be scrollable horizontally if user wants full view. Get rated form: full-width single column. All fields stack. Submit button full-width.
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Designer checklist — Ratings section</div>
+            <ul class="checklist">
+              <li><div class="check-box"></div>Rating scale PDF is downloadable without login from the scale component</li>
+              <li><div class="check-box"></div>Rating actions table has working filters — action type, sector, date range</li>
+              <li><div class="check-box"></div>Each table row's PDF link opens in new tab (SEBI press release PDF)</li>
+              <li><div class="check-box"></div>"Get Rated" button appears minimum 3× on this page: hero, end of process, bottom CTA</li>
+              <li><div class="check-box"></div>Process timeline notes rating committee independence explicitly</li>
+              <li><div class="check-box"></div>"What we rate" tabs show both Instruments and Sectors — issuer can self-qualify</li>
+              <li><div class="check-box"></div>SME ratings track has its own visual distinction (badge/flag)</li>
+              <li><div class="check-box"></div>Get rated form has ≤7 fields and shows RM contact below form</li>
+              <li><div class="check-box"></div>Table is accessible: sort icons, keyboard navigation, ARIA labels on action badges</li>
+              <li><div class="check-box"></div>30-day first-rating commitment is visible (in process section or form confirmation)</li>
+            </ul>
+          </div>
+          <div class="sec-note2">📌 "Get Rated" CTA must appear at the bottom of this section in addition to the hero — new issuers explore the Ratings section before deciding to reach out.</div>
+        </div>
+      </div>
+
+      <!-- ─────────────── RESEARCH & INSIGHTS ─────────────── -->
+      <div class="sec-block">
+        <div class="sec-head" onclick="toggle2(this)">
+          <div class="sec-num orange">RI</div>
+          <div class="sec-title-row">
+            <div class="sec-ttl">Research & Insights</div>
+            <div class="sec-sub">Reports · Sector studies · Press releases · Newsletter · Criteria docs</div>
+          </div>
+          <div class="who-serves">
+            <span class="ws ws-r">Researcher</span>
+            <span class="ws ws-i">Investor</span>
+          </div>
+          <div class="sec-toggle">+</div>
+        </div>
+        <div class="sec-body2">
+          <div class="sec-content2 c3">
+            <div class="cb2 cb2-orange"><div class="cb2-lbl">Featured — Researcher + Investor</div><div class="cb2-ttl">India credit outlook</div><div class="cb2-note">Flagship quarterly/annual macro report. Largest card. Cover image + summary + direct PDF download. No gate for researchers.</div><div class="who-serves"><span class="ws ws-r">Researcher</span><span class="ws ws-i">Investor</span></div></div>
+            <div class="cb2 cb2-orange"><div class="cb2-lbl">Researcher primary</div><div class="cb2-ttl">Sector studies</div><div class="cb2-note">Per-sector deep dives. Filterable by sector. Each links to a full landing page.</div><div class="who-serves"><span class="ws ws-r">Researcher</span></div></div>
+            <div class="cb2 cb2-orange"><div class="cb2-lbl">Researcher + media</div><div class="cb2-ttl">Special reports</div><div class="cb2-note">Topical, policy-relevant thought leadership. No gate. PR-able.</div><div class="who-serves"><span class="ws ws-r">Researcher</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">Investor + Regulator</div><div class="cb2-ttl">Press releases</div><div class="cb2-note">Chronological. Every rating action per SEBI mandate. Searchable by entity name, date, action type. Each → PDF.</div><div class="who-serves"><span class="ws ws-i">Investor</span><span class="ws ws-reg">Regulator</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">Researcher primary</div><div class="cb2-ttl">Rating criteria / methodology</div><div class="cb2-note">All methodology papers public per SEBI. Organised by sector and instrument.</div><div class="who-serves"><span class="ws ws-r">Researcher</span><span class="ws ws-n">New issuer</span></div></div>
+            <div class="cb2"><div class="cb2-lbl">Investor + Researcher</div><div class="cb2-ttl">Newsletter</div><div class="cb2-note">Monthly digest: rating actions, new reports, macro update. Signup widget here + in footer. Archive open.</div><div class="who-serves"><span class="ws ws-i">Investor</span><span class="ws ws-r">Researcher</span></div></div>
+          </div>
+
+          <!-- DESIGNER SPECS: RESEARCH -->
+          
+          <div class="spec-section">
+            <div class="spec-section-title">Components used — Research & Insights</div>
+            <div style="margin-bottom:10px">
+              <span class="component-pill">Featured report hero card</span>
+              <span class="component-pill">3-col report card grid</span>
+              <span class="component-pill">Sector filter tab bar</span>
+              <span class="component-pill">Press release list (chronological)</span>
+              <span class="component-pill">Newsletter signup form</span>
+              <span class="component-pill blue">PDF download button</span>
+              <span class="component-pill blue">Report type badge (Sector study / Special / Criteria)</span>
+              <span class="component-pill green">Newsletter subscription confirm modal</span>
+            </div>
+            <div class="spec-grid spec-3col">
+              <div class="spec-card accent-orange">
+                <div class="spec-card-label">Featured report card</div>
+                <div class="spec-card-title">India Credit Outlook — hero card</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Full-width or 2/3-width card — larger than section cards</li>
+                    <li>Cover art or abstract graphic on left (40% width)</li>
+                    <li>Right: eyebrow tag, report title (20px), 3-line summary, release date, Download PDF button</li>
+                    <li>Badge: "New" or "Q2 2025" edition label, orange bg</li>
+                    <li>No login gate — PDF opens directly</li>
+                    <li>Below featured card: 3-col grid of secondary reports</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-blue">
+                <div class="spec-card-label">Press release list</div>
+                <div class="spec-card-title">Chronological SEBI-mandated list</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Layout: date | action badge | entity name | instrument | PDF icon</li>
+                    <li>Action badges: colour-coded (Upgrade=green, Downgrade=red, Watch=amber, New=blue)</li>
+                    <li>Search bar: entity name live-filter</li>
+                    <li>Load 20 per page, load-more button</li>
+                    <li>Each row: click → either inline expand (excerpt) or new tab (PDF)</li>
+                    <li>SEBI mandate: every rating action must have a press release with PDF</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-green">
+                <div class="spec-card-label">Newsletter signup</div>
+                <div class="spec-card-title">Email subscription widget</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Fields: Email, First name (optional), Sector preferences (multi-select tags)</li>
+                    <li>Sector tags: NBFC, Banking, Infrastructure, Real estate, Manufacturing, Renewables</li>
+                    <li>Submit: "Subscribe — it's free"</li>
+                    <li>Below form: "Monthly digest. No spam. Unsubscribe anytime."</li>
+                    <li>Success state: green tick + "Check your inbox to confirm"</li>
+                    <li>Archive link: "Browse past issues →" below the form</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+
+          <div class="spec-section">
+            <div class="spec-section-title">Interaction states — Research & Insights</div>
+            <div class="interaction-states">
+              <div class="state-row"><span class="state-label">Report card</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Dark card, subtle border, no shadow</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Border brightens, "Download PDF →" button appears (was previously hidden or dimmed)</span></div>
+              <div class="state-row"><span class="state-label">Sector filter tab</span><span class="state-pill sp-default">Inactive</span><span class="state-desc" style="margin-left:8px">Muted text, no underline</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-active">Active</span><span class="state-desc" style="margin-left:8px">Orange underline, white text, grid below animates to filtered results</span></div>
+              <div class="state-row"><span class="state-label">PDF button</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Ghost button: orange border + orange text</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Fills orange, white text — matching primary CTA style</span></div>
+              <div class="state-row"><span class="state-label">PR row</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Clean row, muted PDF icon on right</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Row bg tints, PDF icon turns orange, cursor: pointer</span></div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Copy guidelines — Research & Insights</div>
+            <div class="spec-grid spec-2col">
+              <div class="copy-block">
+                <div class="copy-label">Featured report — card copy structure</div>
+                <div class="copy-eg">Eyebrow: "India Credit Outlook" · Title: "H1 2025: Stress in NBFC & Real Estate, Resilience in Manufacturing" · Excerpt: 2 sentences. · CTA: "Download the full report (PDF, 42 pages)"</div>
+                <div class="copy-note">Title should include the thesis, not just the topic. It signals depth.</div>
+              </div>
+              <div class="copy-block">
+                <div class="copy-label">Newsletter section heading</div>
+                <div class="copy-eg">"Stay ahead of India's credit cycle." Sub: "Our monthly digest brings rating actions, sector outlooks, and fresh research — straight to your inbox."</div>
+                <div class="copy-note">Benefit-led. Not "Subscribe to our newsletter" (weak). Emphasise what they get.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Mobile notes — Research & Insights</div>
+            <div class="mobile-note">
+              <div class="mn-label">Mobile (≤768px) behaviour</div>
+              <div class="mn-body">
+                Featured report card: stacks cover image above text (full-width image, 160px height). 3-col card grid → 1-col on mobile, 2-col on tablet. Sector filter tabs: horizontal scroll, do not wrap. Press release list: hide instrument column on mobile — show date + action badge + entity name + PDF icon only. Newsletter form: full-width single column, sector tag checkboxes become a horizontal scroll row of toggles.
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Designer checklist — Research & Insights</div>
+            <ul class="checklist">
+              <li><div class="check-box"></div>Featured report card is visually dominant — noticeably larger than section cards</li>
+              <li><div class="check-box"></div>All report PDFs open directly without login or form gate</li>
+              <li><div class="check-box"></div>Press release list has entity name search and action type filter</li>
+              <li><div class="check-box"></div>Each press release row links directly to its PDF (SEBI compliance)</li>
+              <li><div class="check-box"></div>Sector filter tabs update the card grid without full page reload</li>
+              <li><div class="check-box"></div>Newsletter form has sector preference multi-select</li>
+              <li><div class="check-box"></div>Newsletter archive link is visible near/below the signup form</li>
+              <li><div class="check-box"></div>Every report card has: title, date, type badge, excerpt, download button</li>
+              <li><div class="check-box"></div>Report pages (individual) are SEO-optimised with entity names in URL and meta</li>
+              <li><div class="check-box"></div>Methodology/criteria docs section is clearly distinct from commercial reports</li>
+            </ul>
+          </div>
+          <div class="sec-note2">📌 All research and press release PDFs must be directly downloadable — no login wall. SEO-optimise each report's landing page with entity names and sector keywords.</div>
+        </div>
+      </div>
+
+      <!-- ─────────────── DISCLOSURES ─────────────── -->
+      <div class="sec-block">
+        <div class="sec-head" onclick="toggle2(this)">
+          <div class="sec-num">D</div>
+          <div class="sec-title-row">
+            <div class="sec-ttl">Disclosures</div>
+            <div class="sec-sub">SEBI · RBI · Code of conduct · Grievance · Conflict of interest · Annual filings</div>
+          </div>
+          <div class="who-serves">
+            <span class="ws ws-reg">Regulator</span>
+            <span class="ws ws-i">Investor</span>
+          </div>
+          <div class="sec-toggle">+</div>
+        </div>
+        <div class="sec-body2">
+          <div class="sec-content2 c3">
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate</div><div class="cb2-ttl">SEBI registration</div><div class="cb2-note">Certificate PDF. Registration number displayed prominently. Link to SEBI's CRA list. Date + renewal status.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">RBI mandate</div><div class="cb2-ttl">RBI recognition</div><div class="cb2-note">Recognition letter PDF. Scope: Basel II bank loan ratings. Validity. Required for banks using ACER ratings for regulatory capital.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate</div><div class="cb2-ttl">Code of conduct</div><div class="cb2-note">Full CoC document. Independence + analyst rotation + no-influence provisions. PDF + HTML summary.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate — critical</div><div class="cb2-ttl">Grievance redressal</div><div class="cb2-note">Complaint form. Escalation matrix. Timelines. Compliance Officer contact. SEBI SCORES + SMART ODR links. Must be real and reachable.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span><span class="ws ws-n">New issuer</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate</div><div class="cb2-ttl">Conflict of interest</div><div class="cb2-note">CoI policy. Related party disclosures. Analyst recusal procedures. Shareholding pattern of ACER Ratings Pvt. Ltd.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span></div></div>
+            <div class="cb2 cb2-dark"><div class="cb2-lbl">Annual obligation</div><div class="cb2-ttl">Annual reports & filings</div><div class="cb2-note">Year-wise archive. Compliance certificate. Audited financials. Board meeting outcomes. Default studies.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-r">Researcher</span></div></div>
+          </div>
+
+          <!-- DESIGNER SPECS: DISCLOSURES -->
+          
+
+          <div class="spec-section">
+            <div class="spec-section-title">Components used — Disclosures</div>
+            <div style="margin-bottom:10px">
+              <span class="component-pill">Registration certificate card</span>
+              <span class="component-pill">Status badge (Active / Expired)</span>
+              <span class="component-pill">Document list row</span>
+              <span class="component-pill">Grievance submission form</span>
+              <span class="component-pill">Escalation matrix table</span>
+              <span class="component-pill blue">SEBI SCORES external link</span>
+              <span class="component-pill blue">SMART ODR external link</span>
+              <span class="component-pill green">Compliance Officer contact card</span>
+            </div>
+            <div class="spec-grid spec-2col">
+              <div class="spec-card accent-blue">
+                <div class="spec-card-label">Registration certificate card</div>
+                <div class="spec-card-title">SEBI / RBI credential display</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Card layout: Authority logo/badge left, details right</li>
+                    <li>Reg number: large, monospaced, prominent (16px+)</li>
+                    <li>Status badge: "Active" in green, with validity date</li>
+                    <li>PDF download: "Download certificate PDF" button below details</li>
+                    <li>External link: "View on SEBI website →" below PDF button</li>
+                    <li>Border: blue left-accent (not orange — signals trust/official)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-blue">
+                <div class="spec-card-label">Grievance redressal</div>
+                <div class="spec-card-title">Complaint mechanism — SEBI critical</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Escalation matrix: Level 1 (ACER CO) → Level 2 (SEBI SCORES) → Level 3 (SMART ODR)</li>
+                    <li>Each level: contact name, email, phone, response timeline</li>
+                    <li>Online complaint form: Name, Email, Complaint type, Description, Upload doc</li>
+                    <li>SEBI SCORES button and SMART ODR button — external, prominent</li>
+                    <li>Response SLA: "We respond within 30 days per SEBI regulations"</li>
+                    <li>This section must NEVER have broken links — quarterly review required</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-amber">
+                <div class="spec-card-label">Annual filings archive</div>
+                <div class="spec-card-title">Year-wise document list</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Year tabs or accordion: FY 2024–25, FY 2023–24, etc.</li>
+                    <li>Per year: Compliance certificate, Audited financials, Board meeting minutes, Default study (if applicable)</li>
+                    <li>Each doc: file name + date + size + PDF download icon</li>
+                    <li>Most recent year expanded by default</li>
+                    <li>Empty state per year: "Documents for FY XXXX will be uploaded by [date]"</li>
+                    <li>SEBI requirement: must include rating performance statistics (transition/default rates)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="spec-card accent-green">
+                <div class="spec-card-label">Code of conduct</div>
+                <div class="spec-card-title">Full policy document display</div>
+                <div class="spec-card-body">
+                  <ul>
+                    <li>Both PDF download AND an HTML summary on-page</li>
+                    <li>HTML summary: 5–7 key principles listed with brief descriptions</li>
+                    <li>Last updated date: prominent, next to download button</li>
+                    <li>Sections: Independence, Analyst rotation, Conflict policy, Solicitation ban</li>
+                    <li>Do not just link to a PDF — regulators should be able to read on-page</li>
+                    <li>Visually distinct from commercial content: blue/neutral palette, not orange</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+
+          <div class="spec-section">
+            <div class="spec-section-title">Interaction states — Disclosures</div>
+            <div class="interaction-states">
+              <div class="state-row"><span class="state-label">Doc row</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">Clean row, PDF icon right-aligned, muted</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-hover">Hover</span><span class="state-desc" style="margin-left:8px">Row bg tints, PDF icon turns blue (trust colour, not orange), cursor: pointer</span></div>
+              <div class="state-row"><span class="state-label">Status badge</span><span class="state-pill sp-default">Active</span><span class="state-desc" style="margin-left:8px">Green badge — "Active · Valid until DD MMM YYYY"</span></div>
+              <div class="state-row"><span class="state-label"></span><span class="state-pill sp-disabled">Expired</span><span class="state-desc" style="margin-left:8px">Red badge — "Expired" — triggers immediate internal alert to update</span></div>
+              <div class="state-row"><span class="state-label">SCORES link</span><span class="state-pill sp-default">Default</span><span class="state-desc" style="margin-left:8px">External link icon, opens in new tab</span></div>
+              <div class="state-row"><span class="state-label">Grievance form</span><span class="state-pill sp-active">Submit</span><span class="state-desc" style="margin-left:8px">Success: green confirmation banner — "Complaint received. Reference no. [XXXX]. We'll respond within 30 days."</span></div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Copy guidelines — Disclosures</div>
+            <div class="spec-grid spec-2col">
+              <div class="copy-block">
+                <div class="copy-label">SEBI registration card — headline</div>
+                <div class="copy-eg">"SEBI-Registered Credit Rating Agency" · Sub: "Registration No. [SEBI/CRA/XXX/XXXX] · Registered since [date] · Status: Active"</div>
+                <div class="copy-note">Registration number must appear on every page in the footer — not just in Disclosures. It's a trust signal.</div>
+              </div>
+              <div class="copy-block">
+                <div class="copy-label">Grievance section heading</div>
+                <div class="copy-eg">"We're committed to resolving every concern." Sub: "ACER Ratings follows a 3-level grievance mechanism as mandated by SEBI. You can reach us directly — or escalate to SEBI SCORES or SMART ODR."</div>
+                <div class="copy-note">Tone: serious, accountable, clear. Not defensive. Not legalese. A regulator and an aggrieved investor should both feel heard.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Mobile notes — Disclosures</div>
+            <div class="mobile-note">
+              <div class="mn-label">Mobile (≤768px) behaviour</div>
+              <div class="mn-body">
+                Registration cards: full-width stacked (not 2-col). Reg number remains large — do not drop below 14px on mobile. Escalation matrix: stacks into card-per-level layout on mobile (not a table). Grievance form: full-width single column, file upload area should be a clearly tappable zone (min 48px tall). Annual filings archive: year tabs become a horizontal scroll row. SEBI SCORES and SMART ODR buttons: full-width on mobile, clearly tappable (min 44px height).
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-section">
+            <div class="spec-section-title">Designer checklist — Disclosures section</div>
+            <ul class="checklist">
+              <li><div class="check-box"></div>SEBI registration number displayed prominently on Disclosures page and in footer of every page</li>
+              <li><div class="check-box"></div>SEBI registration certificate PDF link is functional and opens directly</li>
+              <li><div class="check-box"></div>RBI recognition letter PDF link is functional</li>
+              <li><div class="check-box"></div>Registration status badge shows "Active" with validity date — and has a clear visual state for when it expires</li>
+              <li><div class="check-box"></div>Grievance form functional — submissions reach Compliance Officer</li>
+              <li><div class="check-box"></div>SEBI SCORES link opens https://scores.sebi.gov.in in new tab</li>
+              <li><div class="check-box"></div>SMART ODR link opens https://smartodr.in in new tab</li>
+              <li><div class="check-box"></div>Compliance Officer's name, email, and phone number are real and verified</li>
+              <li><div class="check-box"></div>Code of conduct document shows "last updated" date</li>
+              <li><div class="check-box"></div>Annual filings archive includes current FY compliance certificate and default study</li>
+              <li><div class="check-box"></div>Conflict of interest policy includes shareholding pattern of ACER Ratings Pvt. Ltd.</li>
+              <li><div class="check-box"></div>All disclosure links checked quarterly — set calendar reminder for Q1 of each FY</li>
+            </ul>
+          </div>
+          <div class="sec-note2">📌 Disclosures is your most legally critical section. Every item is a SEBI regulatory requirement. Broken links or outdated documents = compliance risk. Review quarterly minimum.</div>
+        </div>
+      </div>
+
+    </div><!-- /sections-grid -->
+  </div><!-- /panel-sections -->
+
+</div><!-- /doc-wrap -->
+
+<script>
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>{
+    const fn=t.getAttribute('onclick')||'';
+    t.classList.toggle('active',fn.includes("'"+id+"'"));
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const panel=document.getElementById('panel-'+id);
+  if(panel)panel.classList.add('active');
+}
+function toggle2(h){
+  const b=h.nextElementSibling,t=h.querySelector('.sec-toggle');
+  if(!b)return;
+  const o=b.classList.contains('open');
+  b.classList.toggle('open',!o);
+  if(t)t.classList.toggle('open',!o);
+}
+</script>
+</body>
+</html>
