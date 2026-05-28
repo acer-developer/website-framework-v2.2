@@ -38,7 +38,7 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
 .doc-wrap{max-width:1140px;margin:0 auto;padding:28px 24px 60px}
 
 /* HEADER */
-.doc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid var(--border)}
+.doc-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid var(--border)}
 .doc-logo{display:flex;align-items:center;gap:10px}
 .doc-logomark{width:34px;height:34px;background:var(--org);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;letter-spacing:.5px}
 .doc-brand{font-size:15px;font-weight:600;color:var(--txt-primary)}
@@ -48,13 +48,13 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
 .doc-version{font-size:11px;color:var(--txt-tertiary);margin-top:2px}
 
 /* TAB NAV */
-.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:0;background:var(--bg-secondary);border-radius:10px 10px 0 0;overflow:hidden}
-.tab{padding:12px 22px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--txt-tertiary);transition:all .15s;user-select:none;letter-spacing:.4px;white-space:nowrap}
+.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:0;background:var(--bg-secondary);border-radius:10px 10px 0 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.tab{padding:12px 22px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--txt-tertiary);transition:all .15s;user-select:none;letter-spacing:.4px;white-space:nowrap;flex:0 0 auto}
 .tab:hover{color:var(--txt-secondary);background:rgba(24,95,165,.08)}
 .tab.active{color:var(--org);border-bottom-color:var(--org);background:rgba(240,94,28,.12)}
 .tab-num{font-size:10px;opacity:.6;margin-right:5px}
 
-.panel{display:none;padding:24px 0 0}
+.panel{display:none;padding:24px 0 0;min-width:0}
 .panel.active{display:block}
 
 /* SECTION DIVIDER */
@@ -141,11 +141,11 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
 .sections-grid{display:flex;flex-direction:column;gap:10px}
 .sec-block{border:0.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
 .sec-block:hover{border-color:var(--border-light)}
-.sec-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--card-bg);cursor:pointer;user-select:none}
+.sec-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--card-bg);cursor:pointer;user-select:none;flex-wrap:wrap}
 .sec-head:hover{background:rgba(0,0,0,.04)}
 .sec-num{width:28px;height:28px;background:var(--bg-secondary);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0;border:0.5px solid var(--border-light)}
 .sec-num.orange{background:var(--org);border-color:var(--org-bright)}
-.sec-title-row{flex:1}
+.sec-title-row{flex:1;min-width:0}
 .sec-ttl{font-size:14px;font-weight:600;color:var(--txt-primary)}
 .sec-sub{font-size:11px;color:var(--txt-tertiary);margin-top:2px;letter-spacing:.2px}
 .sec-toggle{font-size:18px;color:var(--txt-tertiary);transition:transform .2s;line-height:1}
@@ -255,6 +255,22 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
 .component-pill{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:3px;background:#F8FAFC;color:#0F172A;border:0.5px solid var(--border);margin:2px}
 .component-pill.blue{background:var(--blue-lt);color:var(--blue);border-color:rgba(24,95,165,.22)}
 .component-pill.green{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.22)}
+
+@media (max-width:1000px){
+  .doc-meta{text-align:left}
+  .persona-grid,.board-grid,.spec-4col{grid-template-columns:1fr 1fr}
+  .c3,.spec-3col{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:700px){
+  .doc-wrap{padding:20px 14px 40px}
+  .tab{padding:11px 14px}
+  .sm-header{flex-wrap:wrap}
+  .sm-nav-pills{gap:12px;flex-wrap:wrap}
+  .persona-grid,.board-grid,.c2,.c3,.spec-2col,.spec-3col,.spec-4col{grid-template-columns:1fr}
+  .sec-head{align-items:flex-start}
+  .who-serves{width:100%}
+}
 </style>
 </head>
 <body>
