@@ -6,297 +6,373 @@
 <title>ACER Ratings  Designer Specification Document</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;min-height:100vh}
-
+html,body{background:#fff;color:#0F172A;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.5;min-height:100vh}
 :root{
-  --bk:#ffffff;
-  --dbl:#f8fafc;
-  --card-bg:#ffffff;
-  --card-border:#dde4ea;
   --org:#F05E1C;
-  --org-lt:#FEE5D4;
+  --org-lt:rgba(240,94,28,.1);
   --org-mid:#D86A3D;
-  --org-bright:#FF7A3F;
-  --txt-primary:#0F172A;
-  --txt-secondary:#334155;
-  --txt-tertiary:#64748B;
-  --bg-primary:#ffffff;
-  --bg-secondary:#f8fafc;
-  --border:#e5e7eb;
-  --border-light:#f1f5f9;
+  --navy:#0A1628;
+  --navy2:#0F2040;
+  --t1:#0F172A;
+  --t2:#334155;
+  --t3:#64748B;
+  --t4:#94A3B8;
+  --bg:#fff;
+  --bgs:#F8FAFC;
+  --bgm:#EFF3F8;
+  --brd:#E2E8F0;
+  --brd2:#CBD5E1;
   --r:10px;
-  --r2:6px;
+  --r2:7px;
   --green:#16A34A;
-  --green-lt:#D1FAE5;
+  --green-lt:#DCFCE7;
   --blue:#185FA5;
-  --blue-lt:#E8F0FF;
-  --amber:#D4A640;
-  --amber-lt:#FFF7D6;
+  --blue-lt:#EFF6FF;
+  --amber:#B45309;
+  --amber-lt:#FFFBEB;
 }
 
-/* LAYOUT */
-.doc-wrap{max-width:1140px;margin:0 auto;padding:28px 24px 60px}
+/* ── LAYOUT ─────────────────────────────────────────── */
+.wrap{max-width:1160px;margin:0 auto;padding:32px 28px 80px}
 
-/* HEADER */
-.doc-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid var(--border)}
-.doc-logo{display:flex;align-items:center;gap:10px}
-.doc-logomark{width:34px;height:34px;background:var(--org);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;letter-spacing:.5px}
-.doc-brand{font-size:15px;font-weight:600;color:var(--txt-primary)}
-.doc-brand span{color:var(--org)}
-.doc-meta{text-align:right}
-.doc-title{font-size:13px;font-weight:500;color:var(--txt-secondary);letter-spacing:.3px}
-.doc-version{font-size:11px;color:var(--txt-tertiary);margin-top:2px}
+/* ── HEADER ─────────────────────────────────────────── */
+.hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-bottom:22px;margin-bottom:26px;border-bottom:1px solid var(--brd)}
+.hdr-left{display:flex;align-items:center;gap:11px}
+.logomark{width:36px;height:36px;background:var(--org);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;letter-spacing:.4px;flex-shrink:0}
+.brand{font-size:15px;font-weight:700;color:var(--t1);line-height:1.2}
+.brand span{color:var(--org)}
+.brand-sub{font-size:10px;color:var(--t4);letter-spacing:.3px;margin-top:1px}
+.hdr-right{text-align:right}
+.hdr-title{font-size:12.5px;font-weight:500;color:var(--t2)}
+.hdr-ver{font-size:10.5px;color:var(--t4);margin-top:2px}
 
-/* TAB NAV */
-.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:0;background:var(--bg-secondary);border-radius:10px 10px 0 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
-.tab{padding:12px 22px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--txt-tertiary);transition:all .15s;user-select:none;letter-spacing:.4px;white-space:nowrap;flex:0 0 auto}
-.tab:hover{color:var(--txt-secondary);background:rgba(24,95,165,.08)}
-.tab.active{color:var(--org);border-bottom-color:var(--org);background:rgba(240,94,28,.12)}
-.tab-num{font-size:10px;opacity:.6;margin-right:5px}
+/* ── TABS ────────────────────────────────────────────── */
+.tabs{display:flex;background:var(--bgs);border-radius:var(--r) var(--r) 0 0;border:1px solid var(--brd);border-bottom:none;overflow-x:auto}
+.tab{padding:13px 24px;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;user-select:none;letter-spacing:.3px;transition:color .15s,background .15s}
+.tab:hover{color:var(--t1);background:rgba(0,0,0,.03)}
+.tab.active{color:var(--org);border-bottom-color:var(--org);background:#fff;font-weight:600}
+.tab-n{font-size:10px;opacity:.55;margin-right:5px}
 
-.panel{display:none;padding:24px 0 0;min-width:0}
+/* ── PANELS ──────────────────────────────────────────── */
+.panel{display:none;padding:24px 0 0}
 .panel.active{display:block}
 
-/* SECTION DIVIDER */
-.divider-lbl{display:flex;align-items:center;gap:8px;margin:4px 0 12px}
-.divider-lbl span{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-tertiary);white-space:nowrap}
-.divider-lbl::before,.divider-lbl::after{content:"";flex:1;height:0.5px;background:var(--border)}
+/* ── DIVIDER LABEL ───────────────────────────────────── */
+.dlbl{display:flex;align-items:center;gap:8px;margin:6px 0 14px}
+.dlbl span{font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--t4);white-space:nowrap;font-weight:600}
+.dlbl::before,.dlbl::after{content:"";flex:1;height:1px;background:var(--brd)}
 
-/* PERSONA CARDS */
-.persona-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:20px}
-.pcard{border:0.5px solid var(--border);border-radius:var(--r);padding:16px;background:var(--card-bg);transition:border-color .15s}
-.pcard:hover{border-color:var(--border-light)}
-.pcard-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
-.av-res{background:#E7F7ED;color:#166C2C}
-.av-inv{background:#E8F0FF;color:#185FA5}
-.av-new{background:rgba(240,94,28,.12);color:var(--org)}
-.av-reg{background:#FFF7D6;color:#9A6B17}
-.pname{font-size:13px;font-weight:600;color:var(--txt-primary)}
-.prole{font-size:11px;color:var(--txt-tertiary);letter-spacing:.3px;margin-top:1px}
-.ptag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:3px;margin-bottom:10px;letter-spacing:.6px;text-transform:uppercase}
-.tag-res{background:#E7F7ED;color:#166C2C}
-.tag-inv{background:#E8F0FF;color:#185FA5}
-.tag-new{background:rgba(240,94,28,.12);color:var(--org)}
-.tag-reg{background:#FFF7D6;color:#9A6B17}
-.pgoal{font-size:11px;color:var(--txt-secondary);line-height:1.6;margin-bottom:10px;padding-bottom:10px;border-bottom:0.5px solid var(--border)}
+/* ── PERSONA GRID ────────────────────────────────────── */
+.persona-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.pcard{border:1px solid var(--brd);border-radius:var(--r);padding:16px;background:#fff;transition:border-color .15s,box-shadow .15s}
+.pcard:hover{border-color:var(--brd2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.pcard-top{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.av-re{background:#E7F7ED;color:#166C2C}
+.av-iv{background:var(--blue-lt);color:var(--blue)}
+.av-ni{background:var(--org-lt);color:var(--org)}
+.av-rc{background:var(--amber-lt);color:var(--amber)}
+.pname{font-size:13px;font-weight:600;color:var(--t1)}
+.prole{font-size:10.5px;color:var(--t4);margin-top:1px}
+.ptag{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 9px;border-radius:4px;margin-bottom:11px;letter-spacing:.5px;text-transform:uppercase}
+.t-re{background:#E7F7ED;color:#166C2C}
+.t-iv{background:var(--blue-lt);color:var(--blue)}
+.t-ni{background:var(--org-lt);color:var(--org)}
+.t-rc{background:var(--amber-lt);color:var(--amber)}
+.pgoal{font-size:10.5px;color:var(--t2);line-height:1.65;margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid var(--brd)}
 .plist{list-style:none}
-.plist li{font-size:10px;color:var(--txt-tertiary);padding:3px 0;display:flex;gap:6px;line-height:1.4}
-.plist li::before{content:"→";flex-shrink:0;color:var(--org);font-size:9px;padding-top:1px}
+.plist li{font-size:10px;color:var(--t3);padding:3px 0;display:flex;gap:7px;line-height:1.45}
+.plist li::before{content:"→";flex-shrink:0;color:var(--org);font-size:9px;margin-top:2px}
 
-/* DESIGNER NOTE */
-.designer-note{background:#f9f9f9;border:0.5px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-top:16px}
-.dn-label{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--org);margin-bottom:8px}
-.dn-items{list-style:none}
-.dn-items li{font-size:11px;color:var(--txt-secondary);padding:3px 0;display:flex;gap:8px;line-height:1.5}
-.dn-items li::before{content:"◆";color:var(--org);font-size:8px;flex-shrink:0;padding-top:4px}
+/* ── DESIGNER NOTE ───────────────────────────────────── */
+.dnote{background:var(--bgs);border:1px solid var(--brd);border-left:3px solid var(--org);border-radius:var(--r);padding:14px 18px;margin-top:20px}
+.dnote-lbl{font-size:9px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--org);margin-bottom:9px}
+.dnote-list{list-style:none}
+.dnote-list li{font-size:11px;color:var(--t2);padding:4px 0;display:flex;gap:9px;line-height:1.55}
+.dnote-list li::before{content:"◆";color:var(--org);font-size:7px;flex-shrink:0;margin-top:5px}
 
-/* JOURNEY TABLE */
-.journey-wrap{overflow-x:auto;margin-bottom:20px;border-radius:var(--r);border:0.5px solid var(--border)}
-.journey-tbl{width:100%;border-collapse:collapse;min-width:720px}
-.journey-tbl th{font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);padding:10px 14px;text-align:left;background:var(--bk);border-bottom:0.5px solid var(--border)}
-.journey-tbl th:not(:last-child){border-right:0.5px solid var(--border)}
-.journey-tbl td{font-size:10.5px;color:var(--txt-secondary);padding:11px 14px;border-bottom:0.5px solid var(--border);vertical-align:top;line-height:1.6}
-.journey-tbl td:not(:last-child){border-right:0.5px solid var(--border)}
-.journey-tbl tr:last-child td{border-bottom:none}
-.journey-tbl tr:nth-child(even) td{background:rgba(255,255,255,.015)}
-.jstage{font-size:10px;font-weight:600;color:var(--txt-primary);margin-bottom:3px}
-.jbadge{display:inline-block;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:600;letter-spacing:.3px}
-.jb-land{background:#E8F0FF;color:#185FA5}
-.jb-explore{background:#FFF4E3;color:#B25108}
-.jb-act{background:#DEF7EC;color:#166C2C}
-.jb-trust{background:#F9F5EF;color:#7C5C0F}
-.jb-fail{background:#FEE2E2;color:#B91C1C}
+/* ── JOURNEY TABLE ───────────────────────────────────── */
+.jtbl-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--brd);margin-bottom:22px}
+.jtbl{width:100%;border-collapse:collapse;min-width:780px}
+.jtbl th{font-size:9px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--t4);padding:10px 15px;text-align:left;background:var(--bgs);border-bottom:1px solid var(--brd)}
+.jtbl th:not(:last-child),.jtbl td:not(:last-child){border-right:1px solid var(--brd)}
+.jtbl td{font-size:10.5px;color:var(--t2);padding:12px 15px;border-bottom:1px solid var(--brd);vertical-align:top;line-height:1.6}
+.jtbl tr:last-child td{border-bottom:none}
+.jtbl tr:nth-child(even) td{background:rgba(248,250,252,.7)}
+.jstage{font-size:10.5px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.jbadge{display:inline-block;font-size:8px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.3px}
+.jb-l{background:var(--blue-lt);color:var(--blue)}
+.jb-e{background:#FFF4E3;color:#B25108}
+.jb-a{background:var(--green-lt);color:var(--green)}
+.jb-t{background:#F9F5EF;color:#7C5C0F}
+.jb-f{background:#FEE2E2;color:#B91C1C}
 
-/* SITE MAP */
-.sm-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-secondary);border-radius:var(--r);color:#000;margin-bottom:14px;border:0.5px solid var(--border)}
-.sm-logo{display:flex;align-items:center;gap:8px}
-.sm-logomark{width:28px;height:28px;background:var(--org);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
-.sm-brand{font-size:13px;font-weight:600;color:#000}
-.sm-brand span{color:var(--org)}
-.sm-cta{background:var(--org);color:#fff;border:none;padding:6px 14px;border-radius:4px;font-size:11px;cursor:pointer;font-weight:600;letter-spacing:.4px}
-.sm-nav-pills{display:flex;gap:22px}
-.sm-npill{font-size:11px;color:rgba(255,255,255,.55);cursor:pointer}
-.sm-npill.active{color:#fff;border-bottom:1.5px solid var(--org);padding-bottom:2px}
-.sm-ham{display:flex;flex-direction:column;gap:3.5px;cursor:pointer}
-.sm-ham span{display:block;height:1.5px;width:18px;background:rgba(255,255,255,.6)}
+/* ── NAVBAR MOCK (Tab 3) ─────────────────────────────── */
+.nav-mock{background:var(--navy);border-radius:var(--r);padding:0;margin-bottom:20px;overflow:hidden;border:1px solid var(--navy2);position:relative}
+.nav-mock-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;gap:16px}
+.nav-ham{display:flex;flex-direction:column;gap:4px;cursor:pointer;padding:6px;border-radius:5px;transition:background .15s;flex-shrink:0}
+.nav-ham:hover{background:rgba(255,255,255,.1)}
+.nav-ham span{display:block;width:18px;height:1.5px;background:rgba(255,255,255,.8);border-radius:1px;transition:transform .22s ease,opacity .18s ease}
+.nav-ham.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.nav-ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-ham.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.nav-logo-wrap{display:flex;align-items:center;gap:9px}
+.nav-logomark{width:28px;height:28px;background:var(--org);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+.nav-brand{font-size:13px;font-weight:700;color:#fff}
+.nav-brand span{color:var(--org)}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-link{font-size:11px;color:rgba(255,255,255,.6);padding:5px 10px;border-radius:5px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-link.active{color:#fff;background:rgba(240,94,28,.2)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-search{font-size:10px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:5px;cursor:pointer;padding:5px 8px;border-radius:5px;border:1px solid rgba(255,255,255,.12)}
+.nav-cta{background:var(--org);color:#fff;border:none;padding:7px 16px;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.3px;white-space:nowrap}
+.nav-cta:hover{background:var(--org-mid)}
+.nav-mock-label{font-size:9px;color:rgba(255,255,255,.3);text-align:center;padding:6px;letter-spacing:.5px;border-top:1px solid rgba(255,255,255,.06)}
+/* ── NAV DRAWER ── */
+.nav-drawer{max-height:0;overflow:hidden;transition:max-height .3s ease;border-top:0 solid rgba(255,255,255,.08)}
+/* ── NAV MEGA-MENU DRAWER ─────────────────────────────── */
+.nav-drawer.open{max-height:600px;border-top-width:1px}
+.nav-drawer-body{display:flex;background:#0C1A2E;min-height:320px}
+/* left: section tabs */
+.nm-tabs{width:200px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;padding:8px 0}
+.nm-tab{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;cursor:pointer;transition:background .15s;user-select:none;border-left:3px solid transparent}
+.nm-tab:hover{background:rgba(255,255,255,.05)}
+.nm-tab.active{background:rgba(240,94,28,.12);border-left-color:var(--org)}
+.nm-tab-lbl{font-size:12px;font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.2px;transition:color .15s}
+.nm-tab:hover .nm-tab-lbl,.nm-tab.active .nm-tab-lbl{color:#fff}
+.nm-tab-arr{font-size:11px;color:rgba(255,255,255,.2);transition:color .15s}
+.nm-tab.active .nm-tab-arr{color:var(--org)}
+.nm-tab-div{height:1px;background:rgba(255,255,255,.06);margin:4px 16px}
+/* right: panel content */
+.nm-panels{flex:1;padding:24px 28px;position:relative;overflow:hidden}
+.nm-panel{display:none;animation:nmFade .18s ease}
+.nm-panel.active{display:block}
+@keyframes nmFade{from{opacity:0;transform:translateX(6px)}to{opacity:1;transform:translateX(0)}}
+.nm-panel-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--org);margin-bottom:16px}
+/* multi-col grid */
+.nm-cols{display:flex;gap:32px;flex-wrap:wrap}
+.nm-col{}
+.nm-col-head{font-size:9px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08)}
+.nm-links{display:flex;flex-direction:column;gap:1px}
+.nm-link{font-size:12px;color:rgba(255,255,255,.65);padding:6px 0;cursor:pointer;transition:color .12s;display:flex;align-items:center;gap:8px;border-bottom:1px solid transparent}
+.nm-link:hover{color:#fff}
+.nm-link:hover .nm-link-arrow{opacity:1;transform:translateX(2px)}
+.nm-link-arrow{font-size:9px;color:var(--org);opacity:0;transition:opacity .12s,transform .12s}
+/* cta in drawer */
+.nm-cta-row{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:12px}
+.nm-cta{background:var(--org);color:#fff;border:none;padding:8px 20px;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.4px}
+.nm-cta-note{font-size:10px;color:rgba(255,255,255,.35)}
+/* WCAG note */
+.wcag-note{margin-top:22px;border:1px solid var(--brd);border-left:3px solid var(--blue);border-radius:var(--r);padding:14px 18px;background:var(--blue-lt);display:flex;align-items:flex-start;gap:12px}
+.wcag-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.wcag-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.3px;margin-bottom:5px}
+.wcag-text{font-size:11px;color:var(--t2);line-height:1.65}
+.wcag-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.wcag-tag{font-size:9px;font-weight:600;padding:2px 8px;border-radius:3px;background:#fff;color:var(--blue);border:1px solid rgba(24,95,165,.25)}
 
-.sm-body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start}
-.sm-menu{background:var(--card-bg);border:0.5px solid var(--border);border-radius:var(--r);padding:0;display:flex;flex-direction:column;overflow:hidden}
-.smm-label{font-size:8px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--border)}
-.smm-item{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:5px;cursor:pointer;transition:background .12s;margin-bottom:1px}
-.smm-item:hover,.smm-item.smm-active{background:rgba(0,0,0,.04)}
-.smm-item.smm-active .smm-text{color:var(--txt-primary);font-weight:600}
-.smm-dot{width:4px;height:4px;border-radius:50%;background:var(--border-light);flex-shrink:0}
-.smm-item.smm-active .smm-dot{background:var(--org)}
-.smm-text{font-size:10.5px;color:var(--txt-secondary)}
-.smm-sub{padding-left:14px;margin-bottom:2px}
-.smm-sub .smm-item{padding:3px 7px}
-.smm-sub .smm-text{font-size:9.5px;color:var(--txt-tertiary)}
-.smm-divider{height:0.5px;background:var(--border);margin:7px 0}
-.smm-tag{font-size:8px;background:rgba(240,94,28,.12);color:var(--org);padding:1px 6px;border-radius:2px;font-weight:600;letter-spacing:.3px;margin-left:auto}
-.smm-footer{font-size:8px;color:var(--txt-tertiary);text-align:center;padding-top:8px;letter-spacing:.3px}
+/* ── HOMEPAGE LAYOUT ─────────────────────────────────── */
+.homepage-flow{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.hp-row{background:var(--bgs);border-radius:var(--r2);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--brd)}
+.hp-row-label{font-size:9px;color:var(--org);letter-spacing:.6px;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.hp-row-title{font-size:12px;font-weight:600;color:var(--t1)}
+.hp-row-meta{font-size:10px;color:var(--t4)}
+.hp-sections{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.hp-sec{background:var(--org);border-radius:var(--r2);padding:12px;color:#fff;text-align:center}
+.hp-sec-n{font-size:9px;opacity:.75;margin-bottom:3px;letter-spacing:.4px}
+.hp-sec-t{font-size:12px;font-weight:700}
 
-/* 4 SECTIONS ACCORDION */
-.sections-grid{display:flex;flex-direction:column;gap:10px}
-.sec-block{border:0.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
-.sec-block:hover{border-color:var(--border-light)}
-.sec-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--card-bg);cursor:pointer;user-select:none;flex-wrap:wrap}
-.sec-head:hover{background:rgba(0,0,0,.04)}
-.sec-num{width:28px;height:28px;background:var(--bg-secondary);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0;border:0.5px solid var(--border-light)}
-.sec-num.orange{background:var(--org);border-color:var(--org-bright)}
-.sec-title-row{flex:1;min-width:0}
-.sec-ttl{font-size:14px;font-weight:600;color:var(--txt-primary)}
-.sec-sub{font-size:11px;color:var(--txt-tertiary);margin-top:2px;letter-spacing:.2px}
-.sec-toggle{font-size:18px;color:var(--txt-tertiary);transition:transform .2s;line-height:1}
-.sec-toggle.open{transform:rotate(45deg);color:var(--org)}
-.sec-body2{max-height:0;overflow:hidden;transition:max-height .25s ease,padding .25s ease; border-top:0.5px solid var(--border);padding:0}
-.sec-body2.open{display:block;max-height:2000px;padding:16px 0 20px}
+/* ── SECTION CARDS GRID (Tab 3) ──────────────────────── */
+.sec-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sec-card{border:1px solid var(--brd);border-radius:var(--r2);padding:14px;background:#fff}
+.sec-card-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sec-badge{width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0}
+.sb-light{background:var(--bgs);color:var(--t1);border:1px solid var(--brd)}
+.sb-org{background:var(--org);color:#fff}
+.sec-card-title{font-size:12px;font-weight:600;color:var(--t1)}
 
-/* CONTENT BLOCKS */
-.sec-content2{padding:16px;display:grid;gap:10px}
-.c2{grid-template-columns:1fr 1fr}
-.c3{grid-template-columns:1fr 1fr 1fr}
-.cb2{padding:12px 14px;border-radius:var(--r2);border:0.5px solid var(--border);background:var(--bk)}
-.cb2-lbl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:5px}
-.cb2-ttl{font-size:12.5px;font-weight:600;color:var(--txt-primary);margin-bottom:4px}
-.cb2-note{font-size:11px;color:var(--txt-secondary);line-height:1.6}
-.cb2-orange{border-left:2px solid var(--org);border-radius:0 var(--r2) var(--r2) 0}
-.cb2-dark{border-left:2px solid var(--border);border-radius:0 var(--r2) var(--r2) 0}
-.cb2-green{border-left:2px solid var(--green);border-radius:0 var(--r2) var(--r2) 0}
+/* ── DRILL-DOWN MENU (Tab 3) ─────────────────────────── */
+.sm-layout{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start;margin-top:20px}
+.sm-sidebar{border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.sm-sidebar-head{padding:10px 14px;background:var(--navy);font-size:9px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+/* L1 */
+.dd-l1{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--brd);cursor:pointer;transition:background .12s;user-select:none}
+.dd-l1-btn{display:flex;align-items:center;gap:9px;padding:11px 14px;flex:1}
+.dd-l1-icon{width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;transition:background .15s}
+.dd-l1-label{font-size:12px;font-weight:600;color:var(--t1)}
+.dd-l1-arr{font-size:13px;color:var(--t4);padding:11px 12px;transition:transform .18s ease;line-height:1}
+.dd-l1.open .dd-l1-arr{transform:rotate(90deg)}
+.dd-l1:hover{background:var(--bgs)}
+.dd-l1.open{background:rgba(240,94,28,.04)}
+.dd-l1.open .dd-l1-label{color:var(--org)}
+.dd-l1.open .dd-l1-arr{color:var(--org)}
+/* L2 container */
+.dd-l2-wrap{max-height:0;overflow:hidden;transition:max-height .22s ease;background:var(--bgs)}
+.dd-l2-wrap.open{max-height:600px}
+/* L2 */
+.dd-l2{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--brd);cursor:pointer;transition:background .12s;user-select:none}
+.dd-l2-btn{display:flex;align-items:center;gap:7px;padding:8px 14px 8px 32px;flex:1}
+.dd-l2-dot{width:5px;height:5px;border-radius:50%;background:var(--brd2);flex-shrink:0;transition:background .12s}
+.dd-l2-label{font-size:11px;font-weight:500;color:var(--t2)}
+.dd-l2-arr{font-size:11px;color:var(--t4);padding:8px 12px;transition:transform .18s ease;line-height:1}
+.dd-l2.open .dd-l2-arr{transform:rotate(90deg);color:var(--org)}
+.dd-l2:hover{background:rgba(255,255,255,.8)}
+.dd-l2.open .dd-l2-label{color:var(--org);font-weight:600}
+.dd-l2.open .dd-l2-dot{background:var(--org)}
+/* L3 container */
+.dd-l3-wrap{max-height:0;overflow:hidden;transition:max-height .18s ease;background:#fff}
+.dd-l3-wrap.open{max-height:400px}
+/* L3 */
+.dd-l3{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 48px;border-bottom:1px solid var(--brd);cursor:pointer;transition:background .1s;user-select:none}
+.dd-l3-dot{width:3px;height:3px;border-radius:50%;background:var(--t4);flex-shrink:0}
+.dd-l3-label{font-size:10.5px;color:var(--t3)}
+.dd-l3:hover{background:var(--bgs)}
+.dd-l3.active .dd-l3-label{color:var(--org);font-weight:600}
+.dd-l3.active .dd-l3-dot{background:var(--org)}
+/* Detail panel */
+.sm-detail{border:1px solid var(--brd);border-radius:var(--r);background:#fff;overflow:hidden;min-height:300px}
+.sm-detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;color:var(--t4);gap:8px}
+.sm-detail-empty .de-icon{font-size:28px;opacity:.4}
+.sm-detail-empty .de-txt{font-size:11px;letter-spacing:.3px}
+.sm-detail-head{padding:14px 18px;background:var(--navy);display:flex;align-items:center;gap:10px}
+.sdh-badge{width:28px;height:28px;border-radius:5px;background:var(--org);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0}
+.sdh-title{font-size:13px;font-weight:700;color:#fff}
+.sdh-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
+.sm-detail-body{padding:16px}
+.sd-section{margin-bottom:14px}
+.sd-section:last-child{margin-bottom:0}
+.sd-section-lbl{font-size:8.5px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--t4);margin-bottom:8px}
+.sd-items{display:flex;flex-direction:column;gap:5px}
+.sd-item{display:flex;align-items:flex-start;gap:9px;padding:7px 10px;border-radius:6px;border:1px solid var(--brd);background:var(--bgs);cursor:pointer;transition:border-color .12s,background .12s}
+.sd-item:hover{border-color:var(--org);background:rgba(240,94,28,.03)}
+.sd-item-dot{width:6px;height:6px;border-radius:50%;background:var(--org);flex-shrink:0;margin-top:4px}
+.sd-item-text{font-size:11px;color:var(--t2);line-height:1.45}
+.sd-item-sub{font-size:9.5px;color:var(--t4);margin-top:2px}
+.sd-note{font-size:10px;color:var(--t3);background:var(--bgs);border-left:2px solid var(--org);border-radius:0 5px 5px 0;padding:8px 12px;line-height:1.55;margin-top:10px}
+@media(max-width:860px){.sm-layout{grid-template-columns:1fr}}
 
-.sec-note2{font-size:10px;color:var(--txt-tertiary);padding:8px 16px 12px;font-style:italic;border-top:0.5px dashed var(--border);line-height:1.5}
+/* ── ACCORDION (Tab 4) ───────────────────────────────── */
+.acc-list{display:flex;flex-direction:column;gap:10px}
+.acc-item{border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.acc-item:hover{border-color:var(--brd2)}
+.acc-head{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#fff;cursor:pointer;user-select:none}
+.acc-head:hover{background:var(--bgs)}
+.acc-num{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.an-light{background:var(--bgs);color:var(--t1);border:1px solid var(--brd)}
+.an-org{background:var(--org);color:#fff}
+.acc-meta{flex:1;min-width:0}
+.acc-title{font-size:14px;font-weight:600;color:var(--t1)}
+.acc-sub{font-size:11px;color:var(--t4);margin-top:2px}
+.acc-arrow{font-size:20px;color:var(--t4);transition:transform .2s;line-height:1;margin-left:auto;flex-shrink:0}
+.acc-arrow.open{transform:rotate(45deg);color:var(--org)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;border-top:1px solid var(--brd)}
+.acc-body.open{max-height:4000px}
+.acc-body-inner{padding:0 0 16px}
 
-/* PERSONA TAGS */
-.who-serves{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
-.ws{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600;letter-spacing:.2px}
-.ws-r{background:#f5f5f5;color:#000000}
-.ws-i{background:#f5f5f5;color:#000000}
-.ws-n{background:#f5f5f5;color:#000000}
-.ws-reg{background:#f5f5f5;color:#000000}
+/* ── WHO SERVES TAGS ─────────────────────────────────── */
+.ws-row{display:flex;gap:5px;flex-wrap:wrap;margin-left:auto;margin-right:12px}
+.ws{font-size:9px;padding:2px 8px;border-radius:4px;font-weight:600;letter-spacing:.2px}
+.ws-r{background:var(--bgs);color:var(--t2);border:1px solid var(--brd)}
+.ws-i{background:var(--blue-lt);color:var(--blue)}
+.ws-n{background:var(--org-lt);color:var(--org)}
+.ws-reg{background:var(--amber-lt);color:var(--amber)}
 
-/* ABOUT SPECIAL */
-.about-special{padding:16px;display:grid;gap:10px}
-.about-hero{background:var(--bg-secondary);border-radius:var(--r2);padding:18px;border:0.5px solid var(--border-light)}
-.ah-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--org);margin-bottom:7px;font-weight:600}
-.ah-title{font-size:16px;font-weight:600;color:#000000;margin-bottom:7px;line-height:1.4}
-.ah-sub{font-size:11.5px;color:var(--txt-tertiary);line-height:1.6}
+/* ── CONTENT BLOCKS ──────────────────────────────────── */
+.cb-grid{display:grid;gap:10px;padding:16px}
+.cb-2{grid-template-columns:1fr 1fr}
+.cb-3{grid-template-columns:repeat(3,1fr)}
+.cb{padding:13px 15px;border-radius:var(--r2);border:1px solid var(--brd);background:#fff}
+.cb.cb-org{border-left:3px solid var(--org)}
+.cb.cb-dim{border-left:3px solid var(--brd2)}
+.cb-lbl{font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t4);margin-bottom:5px}
+.cb-ttl{font-size:12.5px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.cb-body{font-size:10.5px;color:var(--t2);line-height:1.65}
+.cb-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
 
-.board-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.board-card{background:var(--bk);border:0.5px solid var(--border);border-radius:var(--r2);padding:11px}
-.bc-name{font-size:12px;font-weight:600;color:var(--txt-primary);margin-bottom:2px}
-.bc-role{font-size:11px;color:var(--org);margin-bottom:3px}
-.bc-note{font-size:10px;color:var(--txt-tertiary);line-height:1.4}
-
-.backers-row{background:#f5f5f5;border:0.5px solid var(--border);border-radius:var(--r2);padding:12px 16px}
-.bk-label{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--org);margin-bottom:8px}
+/* ── ABOUT SPECIAL ───────────────────────────────────── */
+.about-hero-band{background:var(--bgs);border-radius:var(--r2);padding:18px 20px;border:1px solid var(--brd)}
+.ah-eyebrow{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--org);margin-bottom:7px;font-weight:700}
+.ah-title{font-size:17px;font-weight:700;color:var(--t1);margin-bottom:8px;line-height:1.35}
+.ah-sub{font-size:11.5px;color:var(--t3);line-height:1.65}
+.board-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.board-card{background:#fff;border:1px solid var(--brd);border-radius:var(--r2);padding:12px}
+.bc-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.bc-role{font-size:10.5px;color:var(--org);margin-bottom:4px}
+.bc-note{font-size:10px;color:var(--t3);line-height:1.45}
+.backers-band{background:var(--bgs);border:1px solid var(--brd);border-radius:var(--r2);padding:13px 16px}
+.bk-lbl{font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--org);margin-bottom:9px}
 .bk-logos{display:flex;gap:8px;flex-wrap:wrap}
-.bk-logo{background:var(--card-bg);border:0.5px solid var(--border);border-radius:4px;padding:6px 12px;font-size:11px;color:var(--txt-tertiary)}
+.bk-logo{background:#fff;border:1px solid var(--brd);border-radius:4px;padding:6px 13px;font-size:10.5px;color:var(--t3)}
 
-/* EXPANDED SPEC BLOCKS */
-.spec-section{padding:16px;border-top:0.5px solid var(--border);background:var(--bk)}
-.spec-section-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.spec-section-title::after{content:"";flex:1;height:0.5px;background:var(--border)}
-.spec-grid{display:grid;gap:8px}
-.spec-2col{grid-template-columns:1fr 1fr}
-.spec-3col{grid-template-columns:1fr 1fr 1fr}
-.spec-4col{grid-template-columns:1fr 1fr 1fr 1fr}
-
-.spec-card{background:var(--card-bg);border:0.5px solid var(--border);border-radius:var(--r2);padding:12px 14px}
-.spec-card-label{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:5px}
-.spec-card-title{font-size:12px;font-weight:600;color:var(--txt-primary);margin-bottom:5px}
-.spec-card-body{font-size:11px;color:var(--txt-secondary);line-height:1.6}
-.spec-card-body ul{list-style:none;padding:0}
-.spec-card-body ul li{padding:2px 0;display:flex;gap:6px}
-.spec-card-body ul li::before{content:"·";color:var(--org);flex-shrink:0}
-.spec-card.accent-orange{border-top:2px solid var(--org)}
-.spec-card.accent-blue{border-top:2px solid var(--border)}
-.spec-card.accent-green{border-top:2px solid var(--border)}
-.spec-card.accent-amber{border-top:2px solid var(--border)}
-
-.typo-row{display:flex;flex-direction:column;gap:4px}
-.typo-item{display:flex;align-items:baseline;gap:10px;padding:5px 8px;border-radius:4px;background:var(--bk);border:0.5px solid var(--border)}
-.typo-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt-tertiary);width:70px;flex-shrink:0}
-.typo-spec{font-size:11px;color:var(--org);font-family:monospace}
-.typo-use{font-size:10px;color:var(--txt-tertiary)}
-
-.checklist{list-style:none;padding:0}
-.checklist li{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:10px;color:var(--txt-secondary);line-height:1.4;border-bottom:0.5px solid var(--border)}
+/* ── SPEC SECTIONS ───────────────────────────────────── */
+.spec-blk{padding:16px;border-top:1px solid var(--brd)}
+.spec-title{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t4);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.spec-title::after{content:"";flex:1;height:1px;background:var(--brd)}
+.pills{display:flex;flex-wrap:wrap;gap:5px;padding:2px 0 6px}
+.pill{display:inline-flex;font-size:9px;font-weight:600;padding:3px 9px;border-radius:4px;border:1px solid var(--brd);background:var(--bgs);color:var(--t2)}
+.pill.p-blue{background:var(--blue-lt);color:var(--blue);border-color:rgba(24,95,165,.2)}
+.pill.p-green{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.2)}
+.istate-list{display:flex;flex-direction:column;gap:7px}
+.istate-row{display:flex;align-items:flex-start;gap:10px}
+.istate-lbl{font-size:9px;font-weight:600;color:var(--t3);width:90px;flex-shrink:0;padding-top:2px}
+.istate-pill{font-size:8px;padding:2px 8px;border-radius:10px;font-weight:600;flex-shrink:0;white-space:nowrap}
+.ip-def{background:var(--bgs);color:var(--t2);border:1px solid var(--brd)}
+.ip-hov{background:var(--blue-lt);color:var(--blue)}
+.ip-act{background:var(--org-lt);color:var(--org)}
+.istate-desc{font-size:10.5px;color:var(--t2);line-height:1.5}
+.copy-eg-blk{background:#fff;border:1px solid var(--brd);border-radius:var(--r2);padding:13px 15px}
+.copy-eg-lbl{font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t4);margin-bottom:7px}
+.copy-eg-text{font-size:11px;color:var(--t1);line-height:1.65;font-style:italic;border-left:2px solid var(--org);padding-left:11px}
+.copy-eg-note{font-size:9.5px;color:var(--t4);margin-top:6px;font-style:normal}
+.mobile-band{background:var(--bgs);border:1px solid var(--brd);border-radius:var(--r2);padding:12px 15px}
+.mb-lbl{font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.mb-body{font-size:10.5px;color:var(--t2);line-height:1.6}
+.checklist{list-style:none}
+.checklist li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:10.5px;color:var(--t2);line-height:1.5;border-bottom:1px solid var(--brd)}
 .checklist li:last-child{border-bottom:none}
-.check-box{width:13px;height:13px;border:0.5px solid var(--border-light);border-radius:2px;flex-shrink:0;margin-top:1px;background:var(--bk)}
-.check-box.done{background:rgba(22,163,74,.15);border-color:var(--green)}
-.check-box.done::after{content:"✓";display:block;font-size:9px;color:var(--green);text-align:center;line-height:13px}
+.chk{width:14px;height:14px;border:1px solid var(--brd2);border-radius:3px;flex-shrink:0;margin-top:1px}
+.footer-note{font-size:10px;color:var(--t4);padding:10px 16px;font-style:italic;border-top:1px dashed var(--brd);line-height:1.55;background:var(--bgs)}
 
-.interaction-states{display:flex;flex-direction:column;gap:6px}
-.state-row{display:flex;gap:8px;align-items:center}
-.state-label{font-size:9px;font-weight:600;letter-spacing:.5px;color:var(--txt-tertiary);width:80px;flex-shrink:0}
-.state-desc{font-size:10px;color:var(--txt-secondary)}
-.state-pill{font-size:8px;padding:2px 8px;border-radius:10px;font-weight:600}
-.sp-default{background:#f5f5f5;color:#000000}
-.sp-hover{background:#f5f5f5;color:#000000}
-.sp-active{background:rgba(240,94,28,.12);color:var(--org)}
-.sp-disabled{background:#f5f5f5;color:#000000}
-
-.mobile-note{background:#f5f5f5;border:0.5px solid var(--border);border-radius:var(--r2);padding:10px 14px}
-.mn-label{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#000000;margin-bottom:6px}
-.mn-body{font-size:10px;color:var(--txt-secondary);line-height:1.6}
-
-.spacing-row{display:flex;flex-direction:column;gap:3px}
-.sp-row{display:flex;align-items:center;gap:10px;padding:4px 8px;background:var(--bk);border-radius:4px}
-.sp-token{font-family:monospace;font-size:9px;color:var(--org);width:60px;flex-shrink:0}
-.sp-px{font-size:9px;color:var(--txt-tertiary);width:40px}
-.sp-use{font-size:10px;color:var(--txt-secondary)}
-
-.copy-block{background:var(--bk);border:0.5px solid var(--border);border-radius:var(--r2);padding:12px 14px}
-.copy-label{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-tertiary);margin-bottom:6px}
-.copy-eg{font-size:10.5px;color:var(--txt-primary);line-height:1.6;font-style:italic;border-left:2px solid var(--org);padding-left:10px}
-.copy-note{font-size:9px;color:var(--txt-tertiary);margin-top:5px}
-
-.component-pill{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:3px;background:#F8FAFC;color:#0F172A;border:0.5px solid var(--border);margin:2px}
-.component-pill.blue{background:var(--blue-lt);color:var(--blue);border-color:rgba(24,95,165,.22)}
-.component-pill.green{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.22)}
-
-@media (max-width:1000px){
-  .doc-meta{text-align:left}
-  .persona-grid,.board-grid,.spec-4col{grid-template-columns:1fr 1fr}
-  .c3,.spec-3col{grid-template-columns:1fr 1fr}
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media(max-width:1000px){
+  .persona-grid{grid-template-columns:repeat(2,1fr)}
+  .board-grid{grid-template-columns:1fr 1fr}
+  .cb-3{grid-template-columns:1fr 1fr}
+  .hp-sections{grid-template-columns:1fr 1fr}
 }
-
-@media (max-width:700px){
-  .doc-wrap{padding:20px 14px 40px}
-  .tab{padding:11px 14px}
-  .sm-header{flex-wrap:wrap}
-  .sm-nav-pills{gap:12px;flex-wrap:wrap}
-  .persona-grid,.board-grid,.c2,.c3,.spec-2col,.spec-3col,.spec-4col{grid-template-columns:1fr}
-  .sec-head{align-items:flex-start}
-  .who-serves{width:100%}
+@media(max-width:680px){
+  .wrap{padding:18px 14px 50px}
+  .persona-grid,.board-grid,.sec-cards,.cb-2,.cb-3,.hp-sections{grid-template-columns:1fr}
+  .tab{padding:11px 16px}
+  .ws-row{display:none}
+  .nav-links{display:none}
 }
 </style>
 </head>
 <body>
-<div class="doc-wrap">
+<div class="wrap">
 
-  <!-- HEADER -->
-  <div class="doc-header">
-    <div class="doc-logo">
-      <div class="doc-logomark">AR</div>
+  <!-- ── HEADER ── -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="logomark">AR</div>
       <div>
-        <div class="doc-brand"><span>ACER</span> Ratings</div>
-        <div style="font-size:9px;color:var(--txt-tertiary);margin-top:1px;letter-spacing:.3px">Accurité Credit & Economic Ratings · SEBI Registered CRA</div>
+        <div class="brand"><span>ACER</span> Ratings</div>
+        <div class="brand-sub">Accurite Credit &amp; Economic Ratings · SEBI Registered CRA</div>
       </div>
     </div>
-    <div class="doc-meta">
-      <div class="doc-title">Website Design Specification  Internal Reference</div>
-      <div class="doc-version">User personas · Journey map · Site structure · Section blueprints · Designer specs · v1.0</div>
+    <div class="hdr-right">
+      <div class="hdr-title">Website Design Specification  Internal Reference</div>
+      <div class="hdr-ver">User personas · Journey map · Site structure · Section blueprints · v1.0</div>
     </div>
   </div>
 
-  <!-- TAB NAVIGATION -->
+  <!-- ── TABS ── -->
   <div class="tabs">
-    <div class="tab active" onclick="showTab('personas')"><span class="tab-num">01 </span> User Personas</div>
-    <div class="tab" onclick="showTab('journey')"><span class="tab-num">02 </span> Journey Map</div>
-    <div class="tab" onclick="showTab('sitemap')"><span class="tab-num">03 </span> Site Structure</div>
-    <div class="tab" onclick="showTab('sections')"><span class="tab-num">04 </span> 4 Sections in Detail</div>
+    <div class="tab active" onclick="showTab('personas')"><span class="tab-n">01</span> User Personas</div>
+    <div class="tab" onclick="showTab('journey')"><span class="tab-n">02</span> Journey Map</div>
+    <div class="tab" onclick="showTab('sitemap')"><span class="tab-n">03</span> Site Structure</div>
+    <div class="tab" onclick="showTab('sections')"><span class="tab-n">04</span> 4 Sections in Detail</div>
   </div>
 
   <!-- ═══════════════════════════════════════════ -->
@@ -304,27 +380,29 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
   <!-- ═══════════════════════════════════════════ -->
   <div class="panel active" id="panel-personas">
     <div class="persona-grid">
+
       <div class="pcard">
         <div class="pcard-top">
-          <div class="avatar av-res">RE</div>
+          <div class="av av-re">RE</div>
           <div><div class="pname">Researcher / Analyst</div><div class="prole">External  academia, journalism, consultancy</div></div>
         </div>
-        <span class="ptag tag-res">Researcher</span>
-        <div class="pgoal">Needs data, reports, and methodology documents to cite or validate. Doesn't want to register or pay. Fast, no-friction access.</div>
+        <span class="ptag t-re">Researcher</span>
+        <div class="pgoal">Needs data, reports, and methodology documents to cite or validate. No registration, no friction, fast access.</div>
         <ul class="plist">
-          <li>Download sector studies & outlook reports</li>
+          <li>Download sector studies &amp; outlook reports</li>
           <li>Access rating criteria PDFs publicly</li>
           <li>Find historical press releases by date/sector</li>
           <li>Understand ACER's methodology vs peers</li>
           <li>Check SEBI compliance disclosures</li>
         </ul>
       </div>
+
       <div class="pcard">
         <div class="pcard-top">
-          <div class="avatar av-inv">IV</div>
+          <div class="av av-iv">IV</div>
           <div><div class="pname">Investor / Lender</div><div class="prole">Existing user  MFs, banks, insurance, FIIs</div></div>
         </div>
-        <span class="ptag tag-inv">Investor</span>
+        <span class="ptag t-iv">Investor</span>
         <div class="pgoal">Tracks ratings on instruments they hold. Needs latest surveillance alerts, upgrades, downgrades. High trust in data accuracy.</div>
         <ul class="plist">
           <li>Find latest rating on a specific entity</li>
@@ -334,27 +412,29 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
           <li>Subscribe to alerts for specific issuers</li>
         </ul>
       </div>
+
       <div class="pcard">
         <div class="pcard-top">
-          <div class="avatar av-new">NI</div>
+          <div class="av av-ni">NI</div>
           <div><div class="pname">New Issuer / Entity</div><div class="prole">Prospective customer  CFO, treasury, corp dev</div></div>
         </div>
-        <span class="ptag tag-new">New customer</span>
-        <div class="pgoal">Evaluating ACER vs CRISIL/ICRA. Needs to understand cost, process, timeline, and credibility before committing. Wants to speak to someone.</div>
+        <span class="ptag t-ni">New customer</span>
+        <div class="pgoal">Evaluating ACER vs CRISIL/ICRA. Needs to understand cost, process, timeline, and credibility before committing.</div>
         <ul class="plist">
           <li>Understand the rating process step by step</li>
           <li>See ACER's regulatory standing (SEBI/RBI)</li>
-          <li>Know what sectors & instruments ACER rates</li>
+          <li>Know what sectors &amp; instruments ACER rates</li>
           <li>Initiate a rating request / get a quote</li>
           <li>Talk to a relationship manager</li>
         </ul>
       </div>
+
       <div class="pcard">
         <div class="pcard-top">
-          <div class="avatar av-reg">RC</div>
+          <div class="av av-rc">RC</div>
           <div><div class="pname">Regulator / Compliance Officer</div><div class="prole">SEBI, RBI, company compliance teams</div></div>
         </div>
-        <span class="ptag tag-reg">Regulator</span>
+        <span class="ptag t-rc">Regulator</span>
         <div class="pgoal">Checks if ACER is filing correctly, maintaining disclosures, and following code of conduct. Needs instant access to mandatory docs.</div>
         <ul class="plist">
           <li>Access SEBI registration certificate</li>
@@ -364,25 +444,27 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
           <li>Check regulatory filings archive</li>
         </ul>
       </div>
+
     </div>
-    <div class="designer-note">
-      <div class="dn-label">Designer note  persona-led design decisions</div>
-      <ul class="dn-items">
-        <li>Researcher and Investor both arrive via Google they search "ACER Ratings [entity name]" or "ACER credit outlook". Landing pages for press releases and research must be SEO-optimised, with immediate PDF access  no login wall.</li>
+
+    <div class="dnote">
+      <div class="dnote-lbl">Designer note  persona-led design decisions</div>
+      <ul class="dnote-list">
+        <li>Researcher and Investor both arrive via Google  search for "ACER Ratings [entity name]" or "ACER credit outlook". Landing pages for press releases and research must be SEO-optimised, with immediate PDF access  no login wall.</li>
         <li>New issuer arrives via referral or LinkedIn. The hero section and "Get Rated" CTA are built for them. The rating process page must have a clear, numbered flow + a contact/request form at the end.</li>
         <li>Regulator arrives directly to the Disclosures section. This section must be accessible within 1 click from the homepage  no deep nesting.</li>
-        <li>Newsletter and press release subscription serves primarily the Investor and Researcher personas both want passive updates without checking the site daily.</li>
-        <li>The brand disambiguation problem ("ACER = laptops?") is felt most acutely by the New Issuer hero copy, metadata, and the page title tag must lead with "credit rating agency".</li>
+        <li>Newsletter and press release subscription serves primarily the Investor and Researcher personas  both want passive updates without checking the site daily.</li>
+        <li>The brand disambiguation problem ("ACER = laptops?") is felt most acutely by the New Issuer  hero copy, metadata, and the page title tag must lead with "credit rating agency".</li>
       </ul>
     </div>
-  </div>
+  </div><!-- /panel-personas -->
 
   <!-- ═══════════════════════════════════════════ -->
   <!-- PANEL 2: JOURNEY MAP                        -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="panel" id="panel-journey">
-    <div class="journey-wrap">
-      <table class="journey-tbl">
+    <div class="jtbl-wrap">
+      <table class="jtbl">
         <thead>
           <tr>
             <th style="width:130px">Stage</th>
@@ -394,476 +476,944 @@ html,body{background:#ffffff;color:#000000;font-family:-apple-system,BlinkMacSys
         </thead>
         <tbody>
           <tr>
-            <td><div class="jstage">Arrival</div><span class="jbadge jb-land">How they find ACER</span></td>
+            <td><div class="jstage">Arrival</div><span class="jbadge jb-l">How they find ACER</span></td>
             <td>Google search "ACER Ratings NBFC sector study" or "credit outlook India CRA"</td>
             <td>Google search "[Entity] ACER rating downgrade" or direct link from a fund system</td>
             <td>Referral from bank / CA / CFO peer. Sometimes searches "SEBI credit rating agency India SME"</td>
             <td>Direct type-in or from SEBI's list of registered CRAs</td>
           </tr>
           <tr>
-            <td><div class="jstage">Landing</div><span class="jbadge jb-land">First page they see</span></td>
+            <td><div class="jstage">Landing</div><span class="jbadge jb-l">First page they see</span></td>
             <td>Research library page or a specific report/press release</td>
             <td>A specific press release or the Rating Actions table</td>
-            <td>Homepage hero sees "Get Rated" CTA</td>
+            <td>Homepage hero  sees "Get Rated" CTA</td>
             <td>Disclosures section or homepage</td>
           </tr>
           <tr>
-            <td><div class="jstage">Explore</div><span class="jbadge jb-explore">What they look at</span></td>
+            <td><div class="jstage">Explore</div><span class="jbadge jb-e">What they look at</span></td>
             <td>Research → Sector Studies → Economy Outlook → Criteria PDFs</td>
             <td>Rating Actions table → Entity search → Press release PDF → Rating scale reference</td>
-            <td>About → Who we are → Ratings section → Rating Process → Why ACER vs peers</td>
+            <td>About → Who we are → Ratings → Rating Process → Why ACER vs peers</td>
             <td>Disclosures → SEBI certificate → Code of conduct → Grievance → Annual report</td>
           </tr>
           <tr>
-            <td><div class="jstage">Action</div><span class="jbadge jb-act">What they do</span></td>
+            <td><div class="jstage">Action</div><span class="jbadge jb-a">What they do</span></td>
             <td>Downloads PDF report. May subscribe to newsletter. May cite ACER in their publication.</td>
-            <td>Downloads rating rationale. Sets up alert/subscription for entity. Verifies watch/downgrade.</td>
+            <td>Downloads rating rationale. Sets up alert for entity. Verifies watch/downgrade.</td>
             <td>Fills the "Get Rated" form or calls the RM. Shares internally for a decision.</td>
             <td>Downloads compliance certificate. Screenshots grievance mechanism details.</td>
           </tr>
           <tr>
-            <td><div class="jstage">Trust signal needed</div><span class="jbadge jb-trust">What makes them stay</span></td>
+            <td><div class="jstage">Trust signal needed</div><span class="jbadge jb-t">What makes them stay</span></td>
             <td>Public access to criteria docs. Clear methodology. Recent publications (not stale).</td>
             <td>Up-to-date rating actions. Full rationale PDF available. SEBI/RBI badge visible.</td>
             <td>Process clarity. Board credibility. Regulatory standing. Client case (if any). Clear fees/timeline.</td>
-            <td>Compliance filings are current. Grievance contact is real and reachable. Code of conduct is specific.</td>
+            <td>Compliance filings are current. Grievance contact is real and reachable.</td>
           </tr>
           <tr>
-            <td><div class="jstage">Failure mode</div><span class="jbadge jb-fail">Where they drop off</span></td>
+            <td><div class="jstage">Failure mode</div><span class="jbadge jb-f">Where they drop off</span></td>
             <td>Reports are old or gated. Too many clicks to find a PDF.</td>
             <td>No entity search. Rating actions are stale. Rationale PDF behind a form.</td>
-            <td>Process page is vague. No contact point is obvious. Can't tell if ACER rates their sector.</td>
+            <td>Process page is vague. No contact point obvious. Can't tell if ACER rates their sector.</td>
             <td>SEBI certificate is missing or link is broken. Grievance page has no actual contact.</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="designer-note">
-      <div class="dn-label">Key design implications from journey map</div>
-      <ul class="dn-items">
-        <li>Global search bar is not optional Investor and Researcher both search for entity names. Must be in the sticky top nav.</li>
-        <li>Every press release and research PDF must be directly accessible no registration wall for core regulatory content.</li>
+    <div class="dnote">
+      <div class="dnote-lbl">Key design implications from journey map</div>
+      <ul class="dnote-list">
+        <li>Global search bar is not optional  Investor and Researcher both search for entity names. Must be in the sticky top nav.</li>
+        <li>Every press release and research PDF must be directly accessible  no registration wall for core regulatory content.</li>
         <li>The "Get Rated" CTA must appear in hero, sticky nav, and at the bottom of the Ratings section. Not once.</li>
-        <li>Disclosures must be reachable in 1 click from the nav it cannot be buried in a footer link only.</li>
-        <li>Newsletter signup serves both Researcher and Investor passively place it in Research section + footer, not just a popup.</li>
-        <li>Mobile experience must not break the press release / PDF flow Investor often checks rating status on mobile.</li>
+        <li>Disclosures must be reachable in 1 click from the nav  it cannot be buried in a footer link only.</li>
+        <li>Newsletter signup serves both Researcher and Investor passively  place it in Research section + footer, not just a popup.</li>
+        <li>Mobile experience must not break the press release / PDF flow  Investor often checks rating status on mobile.</li>
       </ul>
     </div>
-  </div>
+  </div><!-- /panel-journey -->
 
   <!-- ═══════════════════════════════════════════ -->
   <!-- PANEL 3: SITE STRUCTURE                     -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="panel" id="panel-sitemap">
-    <div class="sm-header">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="sm-ham"><span></span><span></span><span></span></div>
-        <div class="sm-logo">
-          <div class="sm-logomark">AR</div>
-          <div class="sm-brand"><span>ACER</span> Ratings</div>
+
+    <!-- Navbar mock with drill-down drawer -->
+    <div class="nav-mock">
+      <div class="nav-mock-bar">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="nav-ham" id="nav-ham" onclick="toggleNavDrawer()" title="Click to open site navigation">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="nav-logo-wrap">
+            <div class="nav-logomark">AR</div>
+            <div class="nav-brand"><span>ACER</span> Ratings</div>
+          </div>
+        </div>
+        <div class="nav-links">
+          <div class="nav-link">About</div>
+          <div class="nav-link">Ratings</div>
+          <div class="nav-link">Research &amp; Insights</div>
+          <div class="nav-link">Disclosures</div>
+        </div>
+        <div class="nav-right">
+          <div class="nav-search">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="4" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/><path d="M8.5 8.5L11 11" stroke="rgba(255,255,255,.5)" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Search
+          </div>
+          <button class="nav-cta">Get Rated →</button>
         </div>
       </div>
-      <div class="sm-nav-pills">
-        <span class="sm-npill">About</span>
-        <span class="sm-npill">Ratings</span>
-        <span class="sm-npill">Research & Insights</span>
-        <span class="sm-npill">Disclosures</span>
+
+      <!-- Mega-menu drawer  BCG style -->
+      <div class="nav-drawer" id="nav-drawer">
+        <div class="nav-drawer-body">
+
+          <!-- LEFT: section tabs -->
+          <div class="nm-tabs">
+            <div class="nm-tab active" id="nmt-about" onclick="nmSwitch('about')">
+              <span class="nm-tab-lbl">About</span>
+              <span class="nm-tab-arr">›</span>
+            </div>
+            <div class="nm-tab" id="nmt-ratings" onclick="nmSwitch('ratings')">
+              <span class="nm-tab-lbl">Ratings</span>
+              <span class="nm-tab-arr">›</span>
+            </div>
+            <div class="nm-tab" id="nmt-research" onclick="nmSwitch('research')">
+              <span class="nm-tab-lbl">Research &amp; Insights</span>
+              <span class="nm-tab-arr">›</span>
+            </div>
+            <div class="nm-tab" id="nmt-newsroom" onclick="nmSwitch('newsroom')">
+              <span class="nm-tab-lbl">Newsroom</span>
+              <span class="nm-tab-arr">›</span>
+            </div>
+            <div class="nm-tab-div"></div>
+            <div class="nm-tab" id="nmt-disc" onclick="nmSwitch('disc')">
+              <span class="nm-tab-lbl">Disclosures</span>
+              <span class="nm-tab-arr">›</span>
+            </div>
+          </div>
+
+          <!-- RIGHT: panels -->
+          <div class="nm-panels">
+
+            <!-- ABOUT -->
+            <div class="nm-panel active" id="nmp-about">
+              <div class="nm-panel-title">About ACER Ratings</div>
+              <div class="nm-cols">
+                <div class="nm-col">
+                  <div class="nm-col-head">Company</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Who we are<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Mission &amp; values<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Board of Directors<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Leadership team<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+                <div class="nm-col">
+                  <div class="nm-col-head">Ownership &amp; Credibility</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Promoters &amp; backers<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">SEBI registration<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">RBI recognition<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Company journey<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+                <div class="nm-col">
+                  <div class="nm-col-head">Join Us</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Careers<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Open positions<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Culture &amp; values<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="nm-cta-row">
+                <button class="nm-cta">Get Rated →</button>
+                <span class="nm-cta-note">SEBI-registered · Independent · Rigorous</span>
+              </div>
+            </div>
+
+            <!-- RATINGS -->
+            <div class="nm-panel" id="nmp-ratings">
+              <div class="nm-panel-title">Ratings</div>
+              <div class="nm-cols">
+                <div class="nm-col">
+                  <div class="nm-col-head">Rating Products</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Corporate Bond Ratings<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Bank Loan Ratings<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">SME &amp; Mid-Market<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Structured Finance<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Infrastructure Finance<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+                <div class="nm-col">
+                  <div class="nm-col-head">Rating Resources</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Rating Methodology<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Rating Process<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Rating Scale &amp; Definitions<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Rationale Search<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Latest Rating Actions<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+                <div class="nm-col">
+                  <div class="nm-col-head">Get Rated</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Request a rating<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">SME fast-track<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Talk to a RM<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="nm-cta-row">
+                <button class="nm-cta">Request a Rating →</button>
+                <span class="nm-cta-note">30-day first rating · Committee-independent</span>
+              </div>
+            </div>
+
+            <!-- RESEARCH -->
+            <div class="nm-panel" id="nmp-research">
+              <div class="nm-panel-title">Research &amp; Insights</div>
+              <div class="nm-cols">
+                <div class="nm-col">
+                  <div class="nm-col-head">Reports</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Research Reports<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Sector Outlooks<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">ESG Research<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Special Commentary<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Economy &amp; Macro<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+                <div class="nm-col">
+                  <div class="nm-col-head">Stay Updated</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Newsletter Archive<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Subscribe to newsletter<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Rating criteria / methodology<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="nm-cta-row">
+                <button class="nm-cta">Subscribe →</button>
+                <span class="nm-cta-note">All reports free · No login required</span>
+              </div>
+            </div>
+
+            <!-- NEWSROOM -->
+            <div class="nm-panel" id="nmp-newsroom">
+              <div class="nm-panel-title">Newsroom</div>
+              <div class="nm-cols">
+                <div class="nm-col">
+                  <div class="nm-col-head">News &amp; Releases</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Press Releases<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Rating Rationales<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Media Coverage<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Events &amp; Webinars<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+                <div class="nm-col">
+                  <div class="nm-col-head">Media</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Media kit<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Press contact<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Logos &amp; brand assets<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DISCLOSURES -->
+            <div class="nm-panel" id="nmp-disc">
+              <div class="nm-panel-title">Regulatory Disclosures</div>
+              <div class="nm-cols">
+                <div class="nm-col">
+                  <div class="nm-col-head">SEBI &amp; RBI</div>
+                  <div class="nm-links">
+                    <div class="nm-link">SEBI Registration Certificate<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">RBI Recognition Letter<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Code of Conduct<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Conflict of Interest Policy<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+                <div class="nm-col">
+                  <div class="nm-col-head">Compliance</div>
+                  <div class="nm-links">
+                    <div class="nm-link">Grievance Redressal<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Annual Reports &amp; Filings<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Default Studies<span class="nm-link-arrow">→</span></div>
+                    <div class="nm-link">Shareholding Pattern<span class="nm-link-arrow">→</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /nm-panels -->
+        </div><!-- /nav-drawer-body -->
+      </div><!-- /nav-drawer -->
+
+      <div class="nav-mock-label" id="nav-mock-label">Click the ☰ menu icon to explore the site structure</div>
+    </div><!-- /nav-mock -->
+
+    <!-- Homepage layout -->
+    <div class="dlbl"><span>Homepage layout  section order</span></div>
+    <div class="homepage-flow">
+      <div class="hp-row">
+        <div>
+          <div class="hp-row-label">Persistent hero</div>
+          <div class="hp-row-title">Hero band  identity, tagline, key stats, primary CTA</div>
+        </div>
+        <div class="hp-row-meta">All users</div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span style="font-size:10px;color:rgba(255,255,255,.4)">⌕ Search</span>
-        <button class="sm-cta">Get Rated →</button>
+      <div class="hp-sections">
+        <div class="hp-sec"><div class="hp-sec-n">Section 1</div><div class="hp-sec-t">About</div></div>
+        <div class="hp-sec"><div class="hp-sec-n">Section 2</div><div class="hp-sec-t">Ratings</div></div>
+        <div class="hp-sec"><div class="hp-sec-n">Section 3</div><div class="hp-sec-t">Research &amp; Insights</div></div>
+        <div class="hp-sec"><div class="hp-sec-n">Section 4</div><div class="hp-sec-t">Disclosures</div></div>
+      </div>
+      <div class="hp-row">
+        <div class="hp-row-title">Footer  nav links, contact, newsletter, SEBI disclaimer</div>
+        <div class="hp-row-meta">All pages</div>
       </div>
     </div>
 
-    
-
-      <div>
-        <div class="divider-lbl"><span>Homepage layout  section order</span></div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="background:var(--bg-secondary);border-radius:6px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:0.5px solid var(--border)">
-            <div>
-              <div style="font-size:9px;color:var(--org);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px;font-weight:600">Persistent</div>
-              <div style="font-size:12px;font-weight:600;color:var(--txt-primary)">Hero band  identity, tagline, stats, primary CTA</div>
-            </div>
-            <div style="font-size:9px;color:var(--txt-tertiary)">All users</div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px">
-            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
-              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 1</div>
-              <div style="font-size:11px;font-weight:600">About</div>
-            </div>
-            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
-              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 2</div>
-              <div style="font-size:11px;font-weight:600">Ratings</div>
-            </div>
-            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
-              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 3</div>
-              <div style="font-size:11px;font-weight:600">Research & Insights</div>
-            </div>
-            <div style="background:var(--org);border-radius:6px;padding:11px;color:#fff;text-align:center">
-              <div style="font-size:9px;opacity:.75;margin-bottom:3px">Section 4</div>
-              <div style="font-size:11px;font-weight:600">Disclosures</div>
-            </div>
-          </div>
-          <div style="background:var(--bg-secondary);border-radius:6px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:0.5px solid var(--border)">
-            <div style="font-size:11px;color:var(--txt-secondary)">Footer  nav links, contact, newsletter, SEBI disclaimer</div>
-            <div style="font-size:9px;color:var(--txt-tertiary)">All pages</div>
-          </div>
-        </div>
-
-        <div class="divider-lbl" style="margin-top:18px"><span>What lives inside each section</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
-            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
-              <div style="width:22px;height:22px;background:var(--bg-secondary);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#000;font-weight:700;border:0.5px solid var(--border)">A</div>
-              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">About</span>
-            </div>
-            <ul class="plist">
-              <li>Mission & identity statement</li>
-              <li>Board of Directors (names, roles, bios)</li>
-              <li>Promoters & backed by (logos + brief)</li>
-              <li>Leadership team snapshot</li>
-              <li>Company journey / timeline</li>
-              <li>Careers (linked subsection)</li>
-            </ul>
-          </div>
-          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
-            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
-              <div style="width:22px;height:22px;background:var(--org);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700">R</div>
-              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">Ratings</span>
-            </div>
-            <ul class="plist">
-              <li>Rating scale (AAA → D)</li>
-              <li>Rating process (7 steps)</li>
-              <li>What we rate (instruments + sectors)</li>
-              <li>Rating actions (filterable live table)</li>
-              <li>Get rated CTA (form / contact)</li>
-            </ul>
-          </div>
-          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
-            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
-              <div style="width:22px;height:22px;background:var(--org);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:700">RI</div>
-              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">Research & Insights</span>
-            </div>
-            <ul class="plist">
-              <li>Featured report (macro outlook)</li>
-              <li>Sector studies & special reports</li>
-              <li>Rating criteria / methodology docs</li>
-              <li>Press releases archive</li>
-              <li>Newsletter signup + archive</li>
-            </ul>
-          </div>
-          <div style="border:0.5px solid var(--border);border-radius:6px;padding:12px;background:var(--card-bg)">
-            <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
-              <div style="width:22px;height:22px;background:var(--bg-secondary);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#000;font-weight:700;border:0.5px solid var(--border)">D</div>
-              <span style="font-size:12px;font-weight:600;color:var(--txt-primary)">Disclosures</span>
-            </div>
-            <ul class="plist">
-              <li>SEBI registration certificate</li>
-              <li>RBI recognition letter</li>
-              <li>Code of conduct</li>
-              <li>Grievance redressal (form + contact)</li>
-              <li>Conflict of interest policy</li>
-              <li>Annual reports & filings archive</li>
-            </ul>
-          </div>
+    <!-- WCAG note -->
+    <div class="wcag-note">
+      <div class="wcag-icon">♿</div>
+      <div class="wcag-body">
+        <div class="wcag-title">Accessibility requirement  WCAG 2.1 AA compliance</div>
+        <div class="wcag-text">This website must be designed and built in conformance with the <strong>Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</strong> standard. All pages, components, and interactive elements  including the rating actions table, PDFs, forms, and navigation  must meet accessibility requirements to ensure the site is usable by people with visual, auditory, motor, and cognitive disabilities.</div>
+        <div class="wcag-tags">
+          <span class="wcag-tag">Perceivable</span>
+          <span class="wcag-tag">Operable</span>
+          <span class="wcag-tag">Understandable</span>
+          <span class="wcag-tag">Robust</span>
+          <span class="wcag-tag">Colour contrast ≥ 4.5:1</span>
+          <span class="wcag-tag">Keyboard navigable</span>
+          <span class="wcag-tag">Screen reader compatible</span>
+          <span class="wcag-tag">Alt text on all images</span>
+          <span class="wcag-tag">Focus indicators</span>
+          <span class="wcag-tag">ARIA labels on interactive elements</span>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- OLD drill-down placeholder (now moved to hamburger) -->
+    <div class="sm-layout" style="display:none">
+      <div class="sm-sidebar">
+        <div class="sm-sidebar-head">Site map  multi-level</div>
+        <div class="dd-l1" id="l1-about" onclick="ddL1('about')">
+          <div class="dd-l1-btn">
+            <div class="dd-l1-icon sb-light" id="l1i-about">A</div>
+            <span class="dd-l1-label">About</span>
+          </div>
+          <div class="dd-l1-arr">›</div>
+        </div>
+        <div class="dd-l2-wrap" id="l2w-about">
+          <!-- Who we are -->
+          <div class="dd-l2" id="l2-about-who" onclick="ddL2('about','who')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Who we are</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-about-who">
+            <div class="dd-l3" onclick="ddL3(this,'about','who','mission')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Mission &amp; identity statement</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','who','story')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Brand story &amp; disambiguation</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','who','sebi')"><div class="dd-l3-dot"></div><span class="dd-l3-label">SEBI registration badge</span></div>
+          </div>
+          <!-- Board -->
+          <div class="dd-l2" id="l2-about-board" onclick="ddL2('about','board')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Board of Directors</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-about-board">
+            <div class="dd-l3" onclick="ddL3(this,'about','board','chairman')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Chairman  Independent Director</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','board','ceo')"><div class="dd-l3-dot"></div><span class="dd-l3-label">MD &amp; CEO</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','board','ind')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Independent Directors</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','board','cro')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Chief Rating Officer</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','board','nom')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Nominee Directors</span></div>
+          </div>
+          <!-- Promoters -->
+          <div class="dd-l2" id="l2-about-bk" onclick="ddL2('about','bk')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Promoters &amp; Backers</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-about-bk">
+            <div class="dd-l3" onclick="ddL3(this,'about','bk','promoter')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Promoter / Founder entity</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','bk','strat')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Strategic investors</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'about','bk','backer')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Industry backers</span></div>
+          </div>
+          <!-- Leadership + Journey + Careers as leaf L2 -->
+          <div class="dd-l2" onclick="ddL3Leaf(this,'about','leadership')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Leadership team snapshot</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'about','journey')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Company journey / timeline</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'about','careers')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Careers</span></div>
+          </div>
+        </div>
+
+        <!-- ── RATINGS ── -->
+        <div class="dd-l1" id="l1-ratings" onclick="ddL1('ratings')">
+          <div class="dd-l1-btn">
+            <div class="dd-l1-icon" style="background:var(--org);color:#fff">R</div>
+            <span class="dd-l1-label">Ratings</span>
+          </div>
+          <div class="dd-l1-arr">›</div>
+        </div>
+        <div class="dd-l2-wrap" id="l2w-ratings">
+          <div class="dd-l2" onclick="ddL3Leaf(this,'ratings','scale')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Rating scale (AAA → D)</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'ratings','process')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Rating process (7 steps)</span></div>
+          </div>
+          <!-- What we rate -->
+          <div class="dd-l2" id="l2-ratings-scope" onclick="ddL2('ratings','scope')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">What we rate</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-ratings-scope">
+            <div class="dd-l3" onclick="ddL3(this,'ratings','scope','bankloans')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Bank loans</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'ratings','scope','ncd')"><div class="dd-l3-dot"></div><span class="dd-l3-label">NCDs &amp; bonds</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'ratings','scope','cp')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Commercial paper</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'ratings','scope','sf')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Structured finance</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'ratings','scope','sme')"><div class="dd-l3-dot"></div><span class="dd-l3-label">SME ratings track</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'ratings','actions')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Rating actions (live table)</span></div>
+          </div>
+          <!-- Get rated -->
+          <div class="dd-l2" id="l2-ratings-gr" onclick="ddL2('ratings','gr')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Get rated</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-ratings-gr">
+            <div class="dd-l3" onclick="ddL3(this,'ratings','gr','form')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Request form (≤7 fields)</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'ratings','gr','rm')"><div class="dd-l3-dot"></div><span class="dd-l3-label">RM direct contact</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'ratings','gr','sme')"><div class="dd-l3-dot"></div><span class="dd-l3-label">SME fast-track</span></div>
+          </div>
+        </div>
+
+        <!-- ── RESEARCH ── -->
+        <div class="dd-l1" id="l1-research" onclick="ddL1('research')">
+          <div class="dd-l1-btn">
+            <div class="dd-l1-icon" style="background:var(--org);color:#fff;font-size:8px">RI</div>
+            <span class="dd-l1-label">Research &amp; Insights</span>
+          </div>
+          <div class="dd-l1-arr">›</div>
+        </div>
+        <div class="dd-l2-wrap" id="l2w-research">
+          <div class="dd-l2" onclick="ddL3Leaf(this,'research','outlook')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">India credit outlook (featured)</span></div>
+          </div>
+          <!-- Sector studies -->
+          <div class="dd-l2" id="l2-research-sector" onclick="ddL2('research','sector')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Sector studies</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-research-sector">
+            <div class="dd-l3" onclick="ddL3(this,'research','sector','nbfc')"><div class="dd-l3-dot"></div><span class="dd-l3-label">NBFC sector study</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'research','sector','infra')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Infrastructure &amp; power</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'research','sector','mfg')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Manufacturing</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'research','sector','realty')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Real estate</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'research','sector','more')"><div class="dd-l3-dot"></div><span class="dd-l3-label">+ 11 more sectors</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'research','special')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Special reports</span></div>
+          </div>
+          <!-- Press releases -->
+          <div class="dd-l2" id="l2-research-pr" onclick="ddL2('research','pr')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Press releases archive</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-research-pr">
+            <div class="dd-l3" onclick="ddL3(this,'research','pr','search')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Search by entity name</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'research','pr','filter')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Filter by action type &amp; date</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'research','pr','pdf')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Each row → SEBI PDF</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'research','criteria')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Rating criteria / methodology</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'research','newsletter')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Newsletter signup &amp; archive</span></div>
+          </div>
+        </div>
+
+        <!-- ── DISCLOSURES ── -->
+        <div class="dd-l1" id="l1-disc" onclick="ddL1('disc')" style="border-bottom:none">
+          <div class="dd-l1-btn">
+            <div class="dd-l1-icon sb-light">D</div>
+            <span class="dd-l1-label">Disclosures</span>
+          </div>
+          <div class="dd-l1-arr">›</div>
+        </div>
+        <div class="dd-l2-wrap" id="l2w-disc">
+          <div class="dd-l2" onclick="ddL3Leaf(this,'disc','sebi')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">SEBI registration certificate</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'disc','rbi')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">RBI recognition letter</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'disc','coc')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Code of conduct</span></div>
+          </div>
+          <!-- Grievance -->
+          <div class="dd-l2" id="l2-disc-griev" onclick="ddL2('disc','griev')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Grievance redressal</span></div>
+            <div class="dd-l2-arr">›</div>
+          </div>
+          <div class="dd-l3-wrap" id="l3w-disc-griev">
+            <div class="dd-l3" onclick="ddL3(this,'disc','griev','form')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Complaint form</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'disc','griev','matrix')"><div class="dd-l3-dot"></div><span class="dd-l3-label">Escalation matrix</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'disc','griev','scores')"><div class="dd-l3-dot"></div><span class="dd-l3-label">SEBI SCORES link</span></div>
+            <div class="dd-l3" onclick="ddL3(this,'disc','griev','odr')"><div class="dd-l3-dot"></div><span class="dd-l3-label">SMART ODR link</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'disc','coi')">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Conflict of interest policy</span></div>
+          </div>
+          <div class="dd-l2" onclick="ddL3Leaf(this,'disc','annual')" style="border-bottom:none">
+            <div class="dd-l2-btn"><div class="dd-l2-dot"></div><span class="dd-l2-label">Annual reports &amp; filings</span></div>
+          </div>
+        </div>
+
+      </div><!-- /sm-sidebar -->
+
+      <!-- RIGHT: detail panel -->
+      <div class="sm-detail" id="sm-detail">
+        <div class="sm-detail-empty" id="sm-detail-empty">
+          <div class="de-icon">☰</div>
+          <div class="de-txt">Click any section or page in the menu to see details</div>
+        </div>
+        <div id="sm-detail-content" style="display:none"></div>
+      </div>
+
+    </div><!-- /sm-layout -->
+
+  </div><!-- /panel-sitemap -->
 
   <!-- ═══════════════════════════════════════════ -->
-  <!-- PANEL 4: 4 SECTIONS IN DETAIL               -->
+  <!-- PANEL 4: 4 SECTIONS IN DETAIL              -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="panel" id="panel-sections">
-    <div class="sections-grid">
+    <div class="acc-list">
 
-      <!-- ─────────────── ABOUT ─────────────── -->
-      <div class="sec-block">
-        <div class="sec-head" onclick="toggle2(this)">
-          <div class="sec-num">A</div>
-          <div class="sec-title-row">
-            <div class="sec-ttl">About ACER Ratings</div>
-            <div class="sec-sub">Who we are · Board · Promoters & backers · Leadership · Journey · Careers</div>
+      <!-- ── ABOUT ── -->
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle2(this)">
+          <div class="acc-num an-light">A</div>
+          <div class="acc-meta">
+            <div class="acc-title">About ACER Ratings</div>
+            <div class="acc-sub">Who we are · Board · Promoters &amp; backers · Leadership · Journey · Careers</div>
           </div>
-          <div class="who-serves">
+          <div class="ws-row">
             <span class="ws ws-n">New issuer</span>
             <span class="ws ws-i">Investor</span>
           </div>
-          <div class="sec-toggle">+</div>
+          <div class="acc-arrow">+</div>
         </div>
-        <div class="sec-body2">
-          <!-- Original content -->
-          <div class="about-special">
-            <div class="about-hero">
-              <div class="ah-eyebrow">India's independent credit voice</div>
-              <div class="ah-title">We are ACER Ratings a SEBI-registered credit rating agency.</div>
-              <div class="ah-sub">Not the laptop brand. The financial intelligence firm. Delivering independent, rigorous credit opinions that help India's capital markets function with greater transparency and trust.</div>
-            </div>
-            <div class="divider-lbl"><span>Board of directors</span></div>
-            <div class="board-grid">
-              <div class="board-card">
-                <div class="bc-name">Name Surname</div>
-                <div class="bc-role">Chairman  Independent Director</div>
-                <div class="bc-note">Former MD, [Bank / Institution]. 30+ yrs in banking & capital markets.</div>
-              </div>
-              <div class="board-card">
-                <div class="bc-name">Name Surname</div>
-                <div class="bc-role">MD & CEO</div>
-                <div class="bc-note">Founder. Prior roles at [CRA / PE / IB]. Ex-SEBI / RBI (if applicable).</div>
-              </div>
-              <div class="board-card">
-                <div class="bc-name">Name Surname</div>
-                <div class="bc-role">Independent Director</div>
-                <div class="bc-note">Legal / compliance background. SEBI-appointed independent member.</div>
-              </div>
-              <div class="board-card">
-                <div class="bc-name">Name Surname</div>
-                <div class="bc-role">Chief Rating Officer</div>
-                <div class="bc-note">Heads the rating committee. Former [CRISIL / ICRA / Moody's] analyst.</div>
-              </div>
-              <div class="board-card">
-                <div class="bc-name">Name Surname</div>
-                <div class="bc-role">Nominee Director</div>
-                <div class="bc-note">Representing [Promoter / Backer entity]. Background in [finance / VC].</div>
-              </div>
-              <div class="board-card" style="background:var(--bk);border-color:var(--border)">
-                <div class="bc-name" style="color:var(--org)">+ Full board listing</div>
-                <div class="bc-note" style="margin-top:4px">All directors listed with bios, LinkedIn, committee memberships on the full About page.</div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="cb-grid">
+              <div class="about-hero-band">
+                <div class="ah-eyebrow">India's independent credit voice</div>
+                <div class="ah-title">We are ACER Ratings  a SEBI-registered credit rating agency.</div>
+                <div class="ah-sub">Not the laptop brand. The financial intelligence firm. Delivering independent, rigorous credit opinions that help India's capital markets function with greater transparency and trust.</div>
               </div>
             </div>
-            <div class="backers-row">
-              <div class="bk-label">Promoted & backed by</div>
-              <div class="bk-logos">
-                <div class="bk-logo">Promoter / Founder entity</div>
-                <div class="bk-logo">Strategic investor A</div>
-                <div class="bk-logo">Industry backer B</div>
-                <div class="bk-logo">+ Replace with actual names / logos</div>
+            <div class="cb-grid">
+              <div class="dlbl"><span>Board of directors</span></div>
+              <div class="board-grid">
+                <div class="board-card">
+                  <div class="bc-name">Name Surname</div>
+                  <div class="bc-role">Chairman  Independent Director</div>
+                  <div class="bc-note">Former MD, [Bank / Institution]. 30+ yrs in banking &amp; capital markets.</div>
+                </div>
+                <div class="board-card">
+                  <div class="bc-name">Name Surname</div>
+                  <div class="bc-role">MD &amp; CEO</div>
+                  <div class="bc-note">Founder. Prior roles at [CRA / PE / IB]. Ex-SEBI / RBI (if applicable).</div>
+                </div>
+                <div class="board-card">
+                  <div class="bc-name">Name Surname</div>
+                  <div class="bc-role">Independent Director</div>
+                  <div class="bc-note">Legal / compliance background. SEBI-appointed independent member.</div>
+                </div>
+                <div class="board-card">
+                  <div class="bc-name">Name Surname</div>
+                  <div class="bc-role">Chief Rating Officer</div>
+                  <div class="bc-note">Heads the rating committee. Former [CRISIL / ICRA / Moody's] analyst.</div>
+                </div>
+                <div class="board-card">
+                  <div class="bc-name">Name Surname</div>
+                  <div class="bc-role">Nominee Director</div>
+                  <div class="bc-note">Representing [Promoter / Backer entity]. Background in [finance / VC].</div>
+                </div>
+                <div class="board-card" style="border-color:var(--brd)">
+                  <div class="bc-name" style="color:var(--org)">+ Full board listing</div>
+                  <div class="bc-note" style="margin-top:4px">All directors listed with bios, LinkedIn, committee memberships on the full About page.</div>
+                </div>
               </div>
             </div>
-            <div class="sec-content2 c3">
-              <div class="cb2 cb2-orange"><div class="cb2-lbl">Mission</div><div class="cb2-ttl">Why we exist</div><div class="cb2-note">Enabling informed capital allocation through credible, independent credit opinions for India's debt markets.</div></div>
-              <div class="cb2 cb2-orange"><div class="cb2-lbl">Journey</div><div class="cb2-ttl">Timeline</div><div class="cb2-note">Incorporation → SEBI registration → first rated entity → milestones → present. Horizontal timeline component on full page.</div></div>
+            <div class="cb-grid">
+              <div class="backers-band">
+                <div class="bk-lbl">Promoted &amp; backed by</div>
+                <div class="bk-logos">
+                  <div class="bk-logo">Promoter / Founder entity</div>
+                  <div class="bk-logo">Strategic investor A</div>
+                  <div class="bk-logo">Industry backer B</div>
+                  <div class="bk-logo">+ Replace with actual names / logos</div>
+                </div>
+              </div>
             </div>
+            <div class="cb-grid cb-2">
+              <div class="cb cb-org"><div class="cb-lbl">Mission</div><div class="cb-ttl">Why we exist</div><div class="cb-body">Enabling informed capital allocation through credible, independent credit opinions for India's debt markets.</div></div>
+              <div class="cb cb-org"><div class="cb-lbl">Journey</div><div class="cb-ttl">Timeline</div><div class="cb-body">Incorporation → SEBI registration → first rated entity → milestones → present. Horizontal timeline on full page.</div></div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Components used</div>
+              <div class="pills">
+                <span class="pill p-blue">Hero band</span>
+                <span class="pill p-blue">Board card grid</span>
+                <span class="pill p-blue">Backer logo row</span>
+                <span class="pill p-blue">Horizontal timeline</span>
+                <span class="pill p-blue">Leadership snapshot</span>
+                <span class="pill p-green">Careers CTA</span>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Interaction states</div>
+              <div class="istate-list">
+                <div class="istate-row"><span class="istate-lbl">Board card</span><span class="istate-pill ip-def">Default</span><span class="istate-desc">Border 1px, subtle shadow. Hover: border-org, slight elevation.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Timeline node</span><span class="istate-pill ip-hov">Hover</span><span class="istate-desc">Tooltip shows year + milestone text. Active node highlighted in orange.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Backer logo</span><span class="istate-pill ip-def">Default</span><span class="istate-desc">Greyscale. Hover: full colour. Click: opens entity page in new tab.</span></div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Copy guidelines</div>
+              <div class="copy-eg-blk">
+                <div class="copy-eg-lbl">Hero H1 example</div>
+                <div class="copy-eg-text">India's independent credit voice. We are ACER Ratings  a SEBI-registered credit rating agency.</div>
+                <div class="copy-eg-note">Lead with "credit rating agency"  not just "ACER Ratings". Disambiguation from laptop brand is critical.</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Mobile notes</div>
+              <div class="mobile-band">
+                <div class="mb-lbl">Mobile (375px)</div>
+                <div class="mb-body">Board card grid collapses to 1-column. Timeline switches to vertical scroll. Backer logos wrap centred. Hero H1 max 2 lines at 20px.</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Designer checklist</div>
+              <ul class="checklist">
+                <li><div class="chk"></div>Hero H1 leads with "credit rating agency" not just "ACER Ratings"</li>
+                <li><div class="chk"></div>Brand disambiguation ("not the laptop brand") is visually prominent</li>
+                <li><div class="chk"></div>All board member names are linked to their full bios on the About page</li>
+                <li><div class="chk"></div>SEBI registration number visible near / below the board section</li>
+                <li><div class="chk"></div>Board card grid tested at 375px viewport without overflow</li>
+                <li><div class="chk"></div>Backer logos have text fallbacks for when images fail to load</li>
+                <li><div class="chk"></div>Timeline is interactive (hover states) on desktop, scrollable on mobile</li>
+                <li><div class="chk"></div>Careers subsection links to a dedicated /careers page (not a mailto)</li>
+                <li><div class="chk"></div>All images have alt text with person's name and role</li>
+                <li><div class="chk"></div>Page meta description includes "SEBI-registered credit rating agency India"</li>
+              </ul>
+            </div>
+            <div class="footer-note">📌 Board section is a SEBI requirement  names, qualifications, and committee roles must be publicly available. "Backed by" uses logos for recognition; keep names factual and accurate.</div>
           </div>
-
-          <!-- DESIGNER SPECS: ABOUT -->
-          
-
-          <div class="spec-section">
-            
-          </div>
-
-          <div class="spec-section">
-            
-          </div>
-
-          
-
-         
-
-        
-
-          <div class="spec-section">
-            <div class="spec-section-title">Designer checklist About section</div>
-            <ul class="checklist">
-              <li><div class="check-box"></div>Hero H1 leads with "credit rating agency" not just "ACER Ratings"</li>
-              <li><div class="check-box"></div>Brand disambiguation ("not the laptop brand") is visually prominent not just in body text</li>
-              <li><div class="check-box"></div>All board member names are linked to their full bios on the About page</li>
-              <li><div class="check-box"></div>SEBI registration number is visible near / below the board section</li>
-              <li><div class="check-box"></div>Board card grid tested at 375px viewport without overflow</li>
-              <li><div class="check-box"></div>Backer logos have text fallbacks for when images fail to load</li>
-              <li><div class="check-box"></div>Timeline is interactive (hover states) on desktop and scrollable on mobile</li>
-              <li><div class="check-box"></div>Careers subsection links to a dedicated /careers page (not a mailto)</li>
-              <li><div class="check-box"></div>All images have alt text with person's name and role</li>
-              <li><div class="check-box"></div>Page meta description includes "SEBI-registered credit rating agency India"</li>
-            </ul>
-          </div>
-          <div class="sec-note2">📌 Board section is a SEBI requirement  names, qualifications, and committee roles must be publicly available. "Backed by" uses logos for recognition; keep names factual and accurate.</div>
         </div>
-      </div>
+      </div><!-- /acc-item about -->
 
-      <!-- ─────────────── RATINGS ─────────────── -->
-      <div class="sec-block">
-        <div class="sec-head" onclick="toggle2(this)">
-          <div class="sec-num orange">R</div>
-          <div class="sec-title-row">
-            <div class="sec-ttl">Ratings</div>
-            <div class="sec-sub">Scale · Process · What we rate · Rating actions · Get rated · SME track</div>
+      <!-- ── RATINGS ── -->
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle2(this)">
+          <div class="acc-num an-org">R</div>
+          <div class="acc-meta">
+            <div class="acc-title">Ratings</div>
+            <div class="acc-sub">Scale · Process · What we rate · Rating actions · Get rated · SME track</div>
           </div>
-          <div class="who-serves">
+          <div class="ws-row">
             <span class="ws ws-n">New issuer</span>
             <span class="ws ws-i">Investor</span>
             <span class="ws ws-r">Researcher</span>
           </div>
-          <div class="sec-toggle">+</div>
+          <div class="acc-arrow">+</div>
         </div>
-        <div class="sec-body2">
-          <div class="sec-content2 c3">
-            <div class="cb2 cb2-orange"><div class="cb2-lbl">For: new issuer + researcher</div><div class="cb2-ttl">Rating scale</div><div class="cb2-note">Visual AAA → D scale with investment/speculative grade split. Modifier (+/−) explanation. Downloadable scale reference PDF.</div><div class="who-serves"><span class="ws ws-n">New issuer</span><span class="ws ws-r">Researcher</span></div></div>
-            <div class="cb2 cb2-orange"><div class="cb2-lbl">For: new issuer</div><div class="cb2-ttl">Rating process</div><div class="cb2-note">7-step visual flow: Mandate → Data → Analysis → Committee → Decision → Disclosure → Surveillance. Numbered, clear. 30-day first-rating commitment.</div><div class="who-serves"><span class="ws ws-n">New issuer</span></div></div>
-            <div class="cb2 cb2-orange"><div class="cb2-lbl">For: all</div><div class="cb2-ttl">What we rate</div><div class="cb2-note">Instruments tab (Bank loans, NCDs, CP, Structured finance, SME) + Sectors tab (15+ industries). Helps issuers self-qualify before reaching out.</div><div class="who-serves"><span class="ws ws-n">New issuer</span><span class="ws ws-i">Investor</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">For: investor + researcher</div><div class="cb2-ttl">Rating actions</div><div class="cb2-note">Filterable live table. Filter by: Action type, Sector, Date range. Each row → press release PDF. Most used page by investors.</div><div class="who-serves"><span class="ws ws-i">Investor</span><span class="ws ws-r">Researcher</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">For: new issuer</div><div class="cb2-ttl">Get rated</div><div class="cb2-note">Short form: Entity name, instrument type, approximate size, sector, contact. OR direct phone/email to RM. Confirms SEBI-regulated process.</div><div class="who-serves"><span class="ws ws-n">New issuer</span></div></div>
-            <div class="cb2"><div class="cb2-lbl">SME focus</div><div class="cb2-ttl">SME ratings track</div><div class="cb2-note">Streamlined process, 21-day turnaround, accessible fees. Dedicated sub-section. Addresses India's MSME credit gap.</div></div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="cb-grid cb-3">
+              <div class="cb cb-org"><div class="cb-lbl">New issuer + Researcher</div><div class="cb-ttl">Rating scale</div><div class="cb-body">Visual AAA → D scale with investment/speculative grade split. Modifier (+/-) explanation. Downloadable scale reference PDF.</div><div class="cb-tags"><span class="ws ws-n">New issuer</span><span class="ws ws-r">Researcher</span></div></div>
+              <div class="cb cb-org"><div class="cb-lbl">New issuer</div><div class="cb-ttl">Rating process</div><div class="cb-body">7-step visual flow: Mandate → Data → Analysis → Committee → Decision → Disclosure → Surveillance. 30-day first-rating commitment.</div><div class="cb-tags"><span class="ws ws-n">New issuer</span></div></div>
+              <div class="cb cb-org"><div class="cb-lbl">All personas</div><div class="cb-ttl">What we rate</div><div class="cb-body">Instruments tab (Bank loans, NCDs, CP, Structured finance, SME) + Sectors tab (15+ industries). Helps issuers self-qualify.</div><div class="cb-tags"><span class="ws ws-n">New issuer</span><span class="ws ws-i">Investor</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">Investor + Researcher</div><div class="cb-ttl">Rating actions</div><div class="cb-body">Filterable live table. Filter by: Action type, Sector, Date range. Each row → press release PDF. Most used page by investors.</div><div class="cb-tags"><span class="ws ws-i">Investor</span><span class="ws ws-r">Researcher</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">New issuer</div><div class="cb-ttl">Get rated</div><div class="cb-body">Short form: Entity name, instrument type, approx size, sector, contact. OR direct phone/email to RM. Confirms SEBI-regulated process.</div><div class="cb-tags"><span class="ws ws-n">New issuer</span></div></div>
+              <div class="cb"><div class="cb-lbl">SME focus</div><div class="cb-ttl">SME ratings track</div><div class="cb-body">Streamlined process, 21-day turnaround, accessible fees. Dedicated sub-section. Addresses India's MSME credit gap.</div></div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Components used</div>
+              <div class="pills">
+                <span class="pill p-blue">Rating scale visual</span>
+                <span class="pill p-blue">7-step process flow</span>
+                <span class="pill p-blue">Instruments/Sectors tabs</span>
+                <span class="pill p-blue">Filterable actions table</span>
+                <span class="pill p-green">Get Rated form</span>
+                <span class="pill p-green">SME badge/flag</span>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Interaction states</div>
+              <div class="istate-list">
+                <div class="istate-row"><span class="istate-lbl">Rating scale</span><span class="istate-pill ip-hov">Hover</span><span class="istate-desc">Tooltip shows definition (e.g. "AAA: Highest safety"). Investment/speculative split visually marked.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Actions table</span><span class="istate-pill ip-act">Active filter</span><span class="istate-desc">Filtered rows highlighted. Pagination or infinite scroll. Sort by date desc default.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Get Rated form</span><span class="istate-pill ip-def">Default</span><span class="istate-desc">≤7 fields. Submit shows confirmation + RM contact. Validation inline.</span></div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Copy guidelines</div>
+              <div class="copy-eg-blk">
+                <div class="copy-eg-lbl">Process intro copy</div>
+                <div class="copy-eg-text">A transparent, committee-driven process. From mandate to published rating in 30 days  independently reviewed at every step.</div>
+                <div class="copy-eg-note">Emphasise independence and the 30-day commitment. Avoid jargon like "credit enhancement facility".</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Mobile notes</div>
+              <div class="mobile-band">
+                <div class="mb-lbl">Mobile (375px)</div>
+                <div class="mb-body">Rating scale scrolls horizontally. Process steps stack vertically. Actions table has a sticky first column (entity name). Get Rated form is full width, single column.</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Designer checklist</div>
+              <ul class="checklist">
+                <li><div class="chk"></div>Rating scale PDF is downloadable without login from the scale component</li>
+                <li><div class="chk"></div>Rating actions table has working filters  action type, sector, date range</li>
+                <li><div class="chk"></div>Each table row's PDF link opens in new tab (SEBI press release PDF)</li>
+                <li><div class="chk"></div>"Get Rated" button appears minimum 3x on this page: hero, end of process, bottom CTA</li>
+                <li><div class="chk"></div>Process timeline notes rating committee independence explicitly</li>
+                <li><div class="chk"></div>"What we rate" tabs show both Instruments and Sectors  issuer can self-qualify</li>
+                <li><div class="chk"></div>SME ratings track has its own visual distinction (badge/flag)</li>
+                <li><div class="chk"></div>Get rated form has ≤7 fields and shows RM contact below form</li>
+                <li><div class="chk"></div>Table is accessible: sort icons, keyboard navigation, ARIA labels on action badges</li>
+                <li><div class="chk"></div>30-day first-rating commitment is visible in process section or form confirmation</li>
+              </ul>
+            </div>
+            <div class="footer-note">📌 "Get Rated" CTA must appear at the bottom of this section in addition to the hero  new issuers explore the Ratings section before deciding to reach out.</div>
           </div>
-
-          <!-- DESIGNER SPECS: RATINGS -->
-          
-
-         
-
-
-
-          
-
-          <div class="spec-section">
-            <div class="spec-section-title">Designer checklist  Ratings section</div>
-            <ul class="checklist">
-              <li><div class="check-box"></div>Rating scale PDF is downloadable without login from the scale component</li>
-              <li><div class="check-box"></div>Rating actions table has working filters action type, sector, date range</li>
-              <li><div class="check-box"></div>Each table row's PDF link opens in new tab (SEBI press release PDF)</li>
-              <li><div class="check-box"></div>"Get Rated" button appears minimum 3× on this page: hero, end of process, bottom CTA</li>
-              <li><div class="check-box"></div>Process timeline notes rating committee independence explicitly</li>
-              <li><div class="check-box"></div>"What we rate" tabs show both Instruments and Sectors issuer can self-qualify</li>
-              <li><div class="check-box"></div>SME ratings track has its own visual distinction (badge/flag)</li>
-              <li><div class="check-box"></div>Get rated form has ≤7 fields and shows RM contact below form</li>
-              <li><div class="check-box"></div>Table is accessible: sort icons, keyboard navigation, ARIA labels on action badges</li>
-              <li><div class="check-box"></div>30-day first-rating commitment is visible (in process section or form confirmation)</li>
-            </ul>
-          </div>
-          <div class="sec-note2">📌 "Get Rated" CTA must appear at the bottom of this section in addition to the hero  new issuers explore the Ratings section before deciding to reach out.</div>
         </div>
-      </div>
+      </div><!-- /acc-item ratings -->
 
-      <!-- ─────────────── RESEARCH & INSIGHTS ─────────────── -->
-      <div class="sec-block">
-        <div class="sec-head" onclick="toggle2(this)">
-          <div class="sec-num orange">RI</div>
-          <div class="sec-title-row">
-            <div class="sec-ttl">Research & Insights</div>
-            <div class="sec-sub">Reports · Sector studies · Press releases · Newsletter · Criteria docs</div>
+      <!-- ── RESEARCH & INSIGHTS ── -->
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle2(this)">
+          <div class="acc-num an-org" style="font-size:9px">RI</div>
+          <div class="acc-meta">
+            <div class="acc-title">Research &amp; Insights</div>
+            <div class="acc-sub">Reports · Sector studies · Press releases · Newsletter · Criteria docs</div>
           </div>
-          <div class="who-serves">
+          <div class="ws-row">
             <span class="ws ws-r">Researcher</span>
             <span class="ws ws-i">Investor</span>
           </div>
-          <div class="sec-toggle">+</div>
+          <div class="acc-arrow">+</div>
         </div>
-        <div class="sec-body2">
-          <div class="sec-content2 c3">
-            <div class="cb2 cb2-orange"><div class="cb2-lbl">Featured  Researcher + Investor</div><div class="cb2-ttl">India credit outlook</div><div class="cb2-note">Flagship quarterly/annual macro report. Largest card. Cover image + summary + direct PDF download. No gate for researchers.</div><div class="who-serves"><span class="ws ws-r">Researcher</span><span class="ws ws-i">Investor</span></div></div>
-            <div class="cb2 cb2-orange"><div class="cb2-lbl">Researcher primary</div><div class="cb2-ttl">Sector studies</div><div class="cb2-note">Per-sector deep dives. Filterable by sector. Each links to a full landing page.</div><div class="who-serves"><span class="ws ws-r">Researcher</span></div></div>
-            <div class="cb2 cb2-orange"><div class="cb2-lbl">Researcher + media</div><div class="cb2-ttl">Special reports</div><div class="cb2-note">Topical, policy-relevant thought leadership. No gate. PR-able.</div><div class="who-serves"><span class="ws ws-r">Researcher</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">Investor + Regulator</div><div class="cb2-ttl">Press releases</div><div class="cb2-note">Chronological. Every rating action per SEBI mandate. Searchable by entity name, date, action type. Each → PDF.</div><div class="who-serves"><span class="ws ws-i">Investor</span><span class="ws ws-reg">Regulator</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">Researcher primary</div><div class="cb2-ttl">Rating criteria / methodology</div><div class="cb2-note">All methodology papers public per SEBI. Organised by sector and instrument.</div><div class="who-serves"><span class="ws ws-r">Researcher</span><span class="ws ws-n">New issuer</span></div></div>
-            <div class="cb2"><div class="cb2-lbl">Investor + Researcher</div><div class="cb2-ttl">Newsletter</div><div class="cb2-note">Monthly digest: rating actions, new reports, macro update. Signup widget here + in footer. Archive open.</div><div class="who-serves"><span class="ws ws-i">Investor</span><span class="ws ws-r">Researcher</span></div></div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="cb-grid cb-3">
+              <div class="cb cb-org"><div class="cb-lbl">Featured  Researcher + Investor</div><div class="cb-ttl">India credit outlook</div><div class="cb-body">Flagship quarterly/annual macro report. Largest card. Cover image + summary + direct PDF download. No gate for researchers.</div><div class="cb-tags"><span class="ws ws-r">Researcher</span><span class="ws ws-i">Investor</span></div></div>
+              <div class="cb cb-org"><div class="cb-lbl">Researcher primary</div><div class="cb-ttl">Sector studies</div><div class="cb-body">Per-sector deep dives. Filterable by sector. Each links to a full landing page.</div><div class="cb-tags"><span class="ws ws-r">Researcher</span></div></div>
+              <div class="cb cb-org"><div class="cb-lbl">Researcher + media</div><div class="cb-ttl">Special reports</div><div class="cb-body">Topical, policy-relevant thought leadership. No gate. PR-able.</div><div class="cb-tags"><span class="ws ws-r">Researcher</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">Investor + Regulator</div><div class="cb-ttl">Press releases</div><div class="cb-body">Chronological. Every rating action per SEBI mandate. Searchable by entity name, date, action type. Each → PDF.</div><div class="cb-tags"><span class="ws ws-i">Investor</span><span class="ws ws-reg">Regulator</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">Researcher primary</div><div class="cb-ttl">Rating criteria / methodology</div><div class="cb-body">All methodology papers public per SEBI. Organised by sector and instrument.</div><div class="cb-tags"><span class="ws ws-r">Researcher</span><span class="ws ws-n">New issuer</span></div></div>
+              <div class="cb"><div class="cb-lbl">Investor + Researcher</div><div class="cb-ttl">Newsletter</div><div class="cb-body">Monthly digest: rating actions, new reports, macro update. Signup widget here + in footer. Archive open.</div><div class="cb-tags"><span class="ws ws-i">Investor</span><span class="ws ws-r">Researcher</span></div></div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Components used</div>
+              <div class="pills">
+                <span class="pill p-blue">Featured report card (large)</span>
+                <span class="pill p-blue">Sector filter tabs</span>
+                <span class="pill p-blue">Report card grid</span>
+                <span class="pill p-blue">Press release list</span>
+                <span class="pill p-green">Newsletter signup widget</span>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Interaction states</div>
+              <div class="istate-list">
+                <div class="istate-row"><span class="istate-lbl">Report card</span><span class="istate-pill ip-hov">Hover</span><span class="istate-desc">Shadow lift + border-org. "Download PDF" button appears. Date and sector badge visible at rest.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Sector filter</span><span class="istate-pill ip-act">Active</span><span class="istate-desc">Active tab shows org underline. Card grid updates without page reload.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Newsletter form</span><span class="istate-pill ip-def">Default</span><span class="istate-desc">Email + sector multi-select. Submit → confirmation message with archive link.</span></div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Copy guidelines</div>
+              <div class="copy-eg-blk">
+                <div class="copy-eg-lbl">Section headline example</div>
+                <div class="copy-eg-text">Independent research for informed decisions. From credit outlooks to sector deep-dives  all public, no gate.</div>
+                <div class="copy-eg-note">Reinforce the "no login wall" message directly. It is a key differentiator vs gated incumbents.</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Mobile notes</div>
+              <div class="mobile-band">
+                <div class="mb-lbl">Mobile (375px)</div>
+                <div class="mb-body">Featured report is full width, stacked. Sector filter becomes horizontal scroll tabs. Report cards go 1-column. Press release list shows entity, action, date  PDF icon on right.</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Designer checklist</div>
+              <ul class="checklist">
+                <li><div class="chk"></div>Featured report card is visually dominant  noticeably larger than section cards</li>
+                <li><div class="chk"></div>All report PDFs open directly without login or form gate</li>
+                <li><div class="chk"></div>Press release list has entity name search and action type filter</li>
+                <li><div class="chk"></div>Each press release row links directly to its PDF (SEBI compliance)</li>
+                <li><div class="chk"></div>Sector filter tabs update the card grid without full page reload</li>
+                <li><div class="chk"></div>Newsletter form has sector preference multi-select</li>
+                <li><div class="chk"></div>Newsletter archive link is visible near/below the signup form</li>
+                <li><div class="chk"></div>Every report card has: title, date, type badge, excerpt, download button</li>
+                <li><div class="chk"></div>Report pages (individual) are SEO-optimised with entity names in URL and meta</li>
+                <li><div class="chk"></div>Methodology/criteria docs section is clearly distinct from commercial reports</li>
+              </ul>
+            </div>
+            <div class="footer-note">📌 All research and press release PDFs must be directly downloadable  no login wall. SEO-optimise each report's landing page with entity names and sector keywords.</div>
           </div>
-
-          <!-- DESIGNER SPECS: RESEARCH -->
-          
-         
-
-          
-
-            
-
-          
-
-          <div class="spec-section">
-            <div class="spec-section-title">Designer checklist  Research & Insights</div>
-            <ul class="checklist">
-              <li><div class="check-box"></div>Featured report card is visually dominant noticeably larger than section cards</li>
-              <li><div class="check-box"></div>All report PDFs open directly without login or form gate</li>
-              <li><div class="check-box"></div>Press release list has entity name search and action type filter</li>
-              <li><div class="check-box"></div>Each press release row links directly to its PDF (SEBI compliance)</li>
-              <li><div class="check-box"></div>Sector filter tabs update the card grid without full page reload</li>
-              <li><div class="check-box"></div>Newsletter form has sector preference multi-select</li>
-              <li><div class="check-box"></div>Newsletter archive link is visible near/below the signup form</li>
-              <li><div class="check-box"></div>Every report card has: title, date, type badge, excerpt, download button</li>
-              <li><div class="check-box"></div>Report pages (individual) are SEO-optimised with entity names in URL and meta</li>
-              <li><div class="check-box"></div>Methodology/criteria docs section is clearly distinct from commercial reports</li>
-            </ul>
-          </div>
-          <div class="sec-note2">📌 All research and press release PDFs must be directly downloadable  no login wall. SEO-optimise each report's landing page with entity names and sector keywords.</div>
         </div>
-      </div>
+      </div><!-- /acc-item research -->
 
-      <!-- ─────────────── DISCLOSURES ─────────────── -->
-      <div class="sec-block">
-        <div class="sec-head" onclick="toggle2(this)">
-          <div class="sec-num">D</div>
-          <div class="sec-title-row">
-            <div class="sec-ttl">Disclosures</div>
-            <div class="sec-sub">SEBI · RBI · Code of conduct · Grievance · Conflict of interest · Annual filings</div>
+      <!-- ── DISCLOSURES ── -->
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle2(this)">
+          <div class="acc-num an-light">D</div>
+          <div class="acc-meta">
+            <div class="acc-title">Disclosures</div>
+            <div class="acc-sub">SEBI · RBI · Code of conduct · Grievance · Conflict of interest · Annual filings</div>
           </div>
-          <div class="who-serves">
+          <div class="ws-row">
             <span class="ws ws-reg">Regulator</span>
             <span class="ws ws-i">Investor</span>
           </div>
-          <div class="sec-toggle">+</div>
+          <div class="acc-arrow">+</div>
         </div>
-        <div class="sec-body2">
-          <div class="sec-content2 c3">
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate</div><div class="cb2-ttl">SEBI registration</div><div class="cb2-note">Certificate PDF. Registration number displayed prominently. Link to SEBI's CRA list. Date + renewal status.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">RBI mandate</div><div class="cb2-ttl">RBI recognition</div><div class="cb2-note">Recognition letter PDF. Scope: Basel II bank loan ratings. Validity. Required for banks using ACER ratings for regulatory capital.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate</div><div class="cb2-ttl">Code of conduct</div><div class="cb2-note">Full CoC document. Independence + analyst rotation + no-influence provisions. PDF + HTML summary.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate critical</div><div class="cb2-ttl">Grievance redressal</div><div class="cb2-note">Complaint form. Escalation matrix. Timelines. Compliance Officer contact. SEBI SCORES + SMART ODR links. Must be real and reachable.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span><span class="ws ws-n">New issuer</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">SEBI mandate</div><div class="cb2-ttl">Conflict of interest</div><div class="cb2-note">CoI policy. Related party disclosures. Analyst recusal procedures. Shareholding pattern of ACER Ratings Pvt. Ltd.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span></div></div>
-            <div class="cb2 cb2-dark"><div class="cb2-lbl">Annual obligation</div><div class="cb2-ttl">Annual reports & filings</div><div class="cb2-note">Year-wise archive. Compliance certificate. Audited financials. Board meeting outcomes. Default studies.</div><div class="who-serves"><span class="ws ws-reg">Regulator</span><span class="ws ws-r">Researcher</span></div></div>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="cb-grid cb-3">
+              <div class="cb cb-dim"><div class="cb-lbl">SEBI mandate</div><div class="cb-ttl">SEBI registration</div><div class="cb-body">Certificate PDF. Registration number displayed prominently. Link to SEBI's CRA list. Date + renewal status.</div><div class="cb-tags"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">RBI mandate</div><div class="cb-ttl">RBI recognition</div><div class="cb-body">Recognition letter PDF. Scope: Basel II bank loan ratings. Validity. Required for banks using ACER ratings for regulatory capital.</div><div class="cb-tags"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">SEBI mandate</div><div class="cb-ttl">Code of conduct</div><div class="cb-body">Full CoC document. Independence + analyst rotation + no-influence provisions. PDF + HTML summary.</div><div class="cb-tags"><span class="ws ws-reg">Regulator</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">SEBI mandate  critical</div><div class="cb-ttl">Grievance redressal</div><div class="cb-body">Complaint form. Escalation matrix. Timelines. Compliance Officer contact. SEBI SCORES + SMART ODR links. Must be real and reachable.</div><div class="cb-tags"><span class="ws ws-reg">Regulator</span><span class="ws ws-i">Investor</span><span class="ws ws-n">New issuer</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">SEBI mandate</div><div class="cb-ttl">Conflict of interest</div><div class="cb-body">CoI policy. Related party disclosures. Analyst recusal procedures. Shareholding pattern of ACER Ratings Pvt. Ltd.</div><div class="cb-tags"><span class="ws ws-reg">Regulator</span></div></div>
+              <div class="cb cb-dim"><div class="cb-lbl">Annual obligation</div><div class="cb-ttl">Annual reports &amp; filings</div><div class="cb-body">Year-wise archive. Compliance certificate. Audited financials. Board meeting outcomes. Default studies.</div><div class="cb-tags"><span class="ws ws-reg">Regulator</span><span class="ws ws-r">Researcher</span></div></div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Components used</div>
+              <div class="pills">
+                <span class="pill p-blue">Document card (PDF link)</span>
+                <span class="pill p-blue">Status badge (Active/Expired)</span>
+                <span class="pill p-blue">Grievance form</span>
+                <span class="pill p-blue">Filings archive table</span>
+                <span class="pill p-green">SEBI SCORES link</span>
+                <span class="pill p-green">SMART ODR link</span>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Interaction states</div>
+              <div class="istate-list">
+                <div class="istate-row"><span class="istate-lbl">Doc card</span><span class="istate-pill ip-def">Default</span><span class="istate-desc">Shows doc title, last updated date, PDF icon. Hover: org border, download cursor.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Status badge</span><span class="istate-pill ip-act">Active</span><span class="istate-desc">Green "Active" with validity date. Turns amber when ≤60 days to renewal. Turns red when expired.</span></div>
+                <div class="istate-row"><span class="istate-lbl">Grievance form</span><span class="istate-pill ip-def">Default</span><span class="istate-desc">Complaint type, description, contact. Submit → acknowledgement with reference number and 7-day SLA.</span></div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Copy guidelines</div>
+              <div class="copy-eg-blk">
+                <div class="copy-eg-lbl">Section intro copy</div>
+                <div class="copy-eg-text">Every document SEBI requires us to publish  available here, always current. Our commitment to transparency is not just regulatory: it is foundational.</div>
+                <div class="copy-eg-note">Tone: confident, compliance-forward. Avoid dry legalese. Make it human but authoritative.</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Mobile notes</div>
+              <div class="mobile-band">
+                <div class="mb-lbl">Mobile (375px)</div>
+                <div class="mb-body">Document cards stack to 1-column. Grievance form is full-width. Filings archive table scrolls horizontally. SEBI SCORES and SMART ODR are large tap targets (min 44px height).</div>
+              </div>
+            </div>
+            <div class="spec-blk">
+              <div class="spec-title">Designer checklist</div>
+              <ul class="checklist">
+                <li><div class="chk"></div>SEBI registration number displayed prominently on Disclosures page and in footer of every page</li>
+                <li><div class="chk"></div>SEBI registration certificate PDF link is functional and opens directly</li>
+                <li><div class="chk"></div>RBI recognition letter PDF link is functional</li>
+                <li><div class="chk"></div>Registration status badge shows "Active" with validity date  clear visual state for when it expires</li>
+                <li><div class="chk"></div>Grievance form functional  submissions reach Compliance Officer</li>
+                <li><div class="chk"></div>SEBI SCORES link opens https://scores.sebi.gov.in in new tab</li>
+                <li><div class="chk"></div>SMART ODR link opens https://smartodr.in in new tab</li>
+                <li><div class="chk"></div>Compliance Officer's name, email, and phone number are real and verified</li>
+                <li><div class="chk"></div>Code of conduct document shows "last updated" date</li>
+                <li><div class="chk"></div>Annual filings archive includes current FY compliance certificate and default study</li>
+                <li><div class="chk"></div>Conflict of interest policy includes shareholding pattern of ACER Ratings Pvt. Ltd.</li>
+                <li><div class="chk"></div>All disclosure links checked quarterly  set calendar reminder for Q1 of each FY</li>
+              </ul>
+            </div>
+            <div class="footer-note">📌 Disclosures is your most legally critical section. Every item is a SEBI regulatory requirement. Broken links or outdated documents = compliance risk. Review quarterly minimum.</div>
           </div>
-
-          <!-- DESIGNER SPECS: DISCLOSURES -->
-          
-
-          
-          <div class="spec-section">
-            <div class="spec-section-title">Designer checklist  Disclosures section</div>
-            <ul class="checklist">
-              <li><div class="check-box"></div>SEBI registration number displayed prominently on Disclosures page and in footer of every page</li>
-              <li><div class="check-box"></div>SEBI registration certificate PDF link is functional and opens directly</li>
-              <li><div class="check-box"></div>RBI recognition letter PDF link is functional</li>
-              <li><div class="check-box"></div>Registration status badge shows "Active" with validity date and has a clear visual state for when it expires</li>
-              <li><div class="check-box"></div>Grievance form functional submissions reach Compliance Officer</li>
-              <li><div class="check-box"></div>SEBI SCORES link opens https://scores.sebi.gov.in in new tab</li>
-              <li><div class="check-box"></div>SMART ODR link opens https://smartodr.in in new tab</li>
-              <li><div class="check-box"></div>Compliance Officer's name, email, and phone number are real and verified</li>
-              <li><div class="check-box"></div>Code of conduct document shows "last updated" date</li>
-              <li><div class="check-box"></div>Annual filings archive includes current FY compliance certificate and default study</li>
-              <li><div class="check-box"></div>Conflict of interest policy includes shareholding pattern of ACER Ratings Pvt. Ltd.</li>
-              <li><div class="check-box"></div>All disclosure links checked quarterly set calendar reminder for Q1 of each FY</li>
-            </ul>
-          </div>
-          <div class="sec-note2">📌 Disclosures is your most legally critical section. Every item is a SEBI regulatory requirement. Broken links or outdated documents = compliance risk. Review quarterly minimum.</div>
         </div>
-      </div>
+      </div><!-- /acc-item disclosures -->
 
-    </div><!-- /sections-grid -->
+    </div><!-- /acc-list -->
   </div><!-- /panel-sections -->
 
-</div><!-- /doc-wrap -->
-
+</div><!-- /wrap -->
 <script>
+/* ── TAB SWITCHING ── */
 function showTab(id){
   document.querySelectorAll('.tab').forEach(t=>{
     const fn=t.getAttribute('onclick')||'';
     t.classList.toggle('active',fn.includes("'"+id+"'"));
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  const panel=document.getElementById('panel-'+id);
-  if(panel)panel.classList.add('active');
+  const el=document.getElementById('panel-'+id);
+  if(el)el.classList.add('active');
 }
+
+/* ── ACCORDION (Tab 4) ── */
 function toggle2(h){
-  const b=h.nextElementSibling,t=h.querySelector('.sec-toggle');
+  const b=h.nextElementSibling;
+  const a=h.querySelector('.acc-arrow');
   if(!b)return;
-  const o=b.classList.contains('open');
-  document.querySelectorAll('.sec-body2').forEach(body=>body.classList.remove('open'));
-  document.querySelectorAll('.sec-toggle').forEach(toggle=>toggle.classList.remove('open'));
-  if(!o){
+  const isOpen=b.classList.contains('open');
+  document.querySelectorAll('.acc-body').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.acc-arrow').forEach(x=>x.classList.remove('open'));
+  if(!isOpen){
     b.classList.add('open');
-    if(t)t.classList.add('open');
+    if(a)a.classList.add('open');
   }
 }
+
+/* ── HAMBURGER DRAWER (Tab 3) ── */
+function toggleNavDrawer(){
+  const drawer=document.getElementById('nav-drawer');
+  const ham=document.getElementById('nav-ham');
+  const lbl=document.getElementById('nav-mock-label');
+  const isOpen=drawer.classList.contains('open');
+  drawer.classList.toggle('open',!isOpen);
+  ham.classList.toggle('open',!isOpen);
+  lbl.textContent=isOpen?'Click the ☰ menu icon to explore the site structure':'Click any section in the menu · ☰ to close';
+}
+
+function nmSwitch(sec){
+  document.querySelectorAll('.nm-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nm-panel').forEach(p=>p.classList.remove('active'));
+  const tab=document.getElementById('nmt-'+sec);
+  const panel=document.getElementById('nmp-'+sec);
+  if(tab)tab.classList.add('active');
+  if(panel)panel.classList.add('active');
+}
+
 </script>
 </body>
 </html>
